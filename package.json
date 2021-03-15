@@ -1,13 +1,31 @@
 {
-  "name": "logger",
+  "name": "@4lch4/logger",
+  "displayName": "Logger",
   "version": "0.0.1",
-  "description": "A small logger utility",
+  "description": "A small utility for logging to console within NodeJS/TypeScript applications.",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "4lch4",
+    "url": "https://4lch4.dev",
+    "email": "hey@4lch4.dev"
+  },
+  "bugs": {
+    "email": "bugs@4lch4.dev",
+    "url": "https://github.com/4lch4/logger/issues"
+  },
+  "homepage": "https://github.com/4lch4/logger",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/4lch4/logger"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "types": "dist/index.d.ts",
   "license": "ISC",
   "dependencies": {
     "chalk": "^4.1.0",
