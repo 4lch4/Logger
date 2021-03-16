@@ -1,61 +1,46 @@
-import { cyan, gray, green, red, yellow } from 'chalk'
-import dayjs from 'dayjs'
+import chalk from 'chalk'
+import { DefaultColors } from './defaults'
+import { IColorOpts, ILogger, Level, LogFormat } from './interfaces'
 
-export enum Level {
-  info = 'info',
-  warn = 'warn',
-  debug = 'debug',
-  error = 'error',
-  success = 'success'
-}
+export class Logger implements ILogger {
+  // private _format: LogFormat
+  private colors: IColorOpts = DefaultColors
 
-const formatMsg = (msg: string, level: Level) => {
-  const timestamp = dayjs().format('YYYY.MM.DD-HH.mm.ss')
-  const prefix = []
 
-  switch (level) {
-    case 'info': {
-      prefix.push(gray(`[${timestamp}] - [INFO] - `))
-      break
-    }
-
-    case 'warn': {
-      prefix.push(yellow(`[${timestamp}] - [WARN] - `))
-      break
-    }
-
-    case 'debug': {
-      prefix.push(cyan(`[${timestamp}] - [DEBUG] - `))
-      break
-    }
-
-    case 'error': {
-      prefix.push(red(`[${timestamp}] - [ERROR] - `))
-      break
-    }
-
-    case 'success': {
-      prefix.push(green(`[${timestamp}] - [SUCCESS] - `))
-      break
-    }
-
-    default: {
-      return undefined
-    }
+  constructor(_format: LogFormat, colors?: IColorOpts) {
+    if (colors) this.colors = colors
+    // this._format = format
   }
 
-  prefix.push(msg)
-  return prefix.join('')
-}
+  private colorMsg(msg: string, level: Level) {
+    return chalk.keyword(this.colors[level])(msg)
+  }
 
-export const logger = {
-  info: (msg: string) => console.log(formatMsg(msg, Level.info)),
-  warn: (msg: string) => console.log(formatMsg(msg, Level.warn)),
-  debug: (msg: string) => console.log(formatMsg(msg, Level.debug)),
-  error: (msg: string | Error, ..._extra: any[]) => {
-    console.log(red(msg instanceof Error ? msg.message : msg))
-    console.log(red(_extra.join('\n')))
-  },
-  success: (msg: string) => console.log(formatMsg(msg, Level.success)),
-  log: (msg: string, level: Level) => console.log(formatMsg(msg, level))
+  // private formatMsg(msg: string, level: Level) {
+  // }
+
+  info(msg: string) {
+    console.log(this.colorMsg(msg, Level.info))
+  }
+
+  warn(msg: string) {
+    console.log(this.colorMsg(msg, Level.warn))
+  }
+
+  debug(msg: string) {
+    console.log(this.colorMsg(msg, Level.debug))
+  }
+
+  error(msg: string | Error, ..._extra: any[]) {
+    console.log(this.colorMsg(msg instanceof Error ? msg.message : msg, Level.error))
+    console.log(this.colorMsg(_extra.join('\n'), Level.error))
+  }
+
+  success(msg: string) {
+    console.log(this.colorMsg(msg, Level.success))
+  }
+
+  log(msg: string, level: any) {
+    console.log(this.colorMsg(msg, level))
+  }
 }
