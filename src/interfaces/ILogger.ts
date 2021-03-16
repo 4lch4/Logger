@@ -1,3 +1,5 @@
+import { Level } from "."
+
 /**
  * The default logger that's exported by the module.
  */
