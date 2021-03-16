@@ -42,6 +42,6 @@
     }
   },
   "release": {
-    "branches": ["master", "next"]
+    "branches": ["main", "next"]
   }
 }
