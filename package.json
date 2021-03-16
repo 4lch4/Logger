@@ -1,11 +1,12 @@
 {
   "name": "@4lch4/logger",
   "displayName": "Logger",
-  "version": "0.1.0",
+  "version": "0.0.0-development",
   "description": "A small utility for logging to console within NodeJS/TypeScript applications.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "release": "np",
+    "semantic-release": "semantic-release"
   },
   "keywords": [],
   "author": {
@@ -32,7 +33,8 @@
     "dayjs": "^1.10.4"
   },
   "devDependencies": {
-    "cz-conventional-changelog": "3.3.0"
+    "cz-conventional-changelog": "3.3.0",
+    "semantic-release": "^17.4.2"
   },
   "config": {
     "commitizen": {
