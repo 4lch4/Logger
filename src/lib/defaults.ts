@@ -9,4 +9,9 @@ export const DefaultColors: IColorOpts = {
   warn: 'yellow'
 }
 
-export const DefaultFormat: LogFormat = 'plaintext'
+export const DefaultLogFormat: LogFormat = 'plaintext'
+
+export const DefaultDayJSFormats = {
+  prettyFormat: 'YYYY.MM.DD-mm:HH:ss',
+  utcMillisecondsFormat: 'x'
+}
