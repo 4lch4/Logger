@@ -6,13 +6,13 @@ export class Logger implements ILogger {
   private formatter: Formatter
   private ioUtil?: IOUtil
 
-  constructor(loggerOpts: ILoggerOpts) {
+  constructor(loggerOpts?: ILoggerOpts) {
     let colorOpts = DefaultColors
     let formatOpt = DefaultLogFormat
 
-    if (loggerOpts.format) formatOpt = loggerOpts.format
-    if (loggerOpts.colorOpts) colorOpts = loggerOpts.colorOpts
-    if (loggerOpts.logDir) {
+    if (loggerOpts?.format) formatOpt = loggerOpts.format
+    if (loggerOpts?.colorOpts) colorOpts = loggerOpts.colorOpts
+    if (loggerOpts?.logDir) {
       this.ioUtil = new IOUtil(loggerOpts.logDir, loggerOpts.format)
     }
 
