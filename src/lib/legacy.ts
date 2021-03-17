@@ -1,6 +1,6 @@
 import { cyan, gray, green, red, yellow } from 'chalk'
 import dayjs from 'dayjs'
-import { ILogger, Level } from './interfaces'
+import { ILogger, Level } from '../interfaces'
 
 const formatMsg = (msg: string, level: Level) => {
   const timestamp = dayjs().format('YYYY.MM.DD-HH.mm.ss')
