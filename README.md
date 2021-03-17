@@ -20,13 +20,11 @@ logger.error('Uh oh, something broke...')
 
 It has 5 "levels" of logging with a color for each, which are as follows (in no particular order):
 
-<ul>
-  <li style="color: Cyan">debug - Cyan</li>
-  <li style="color: red">error - Red</li>
-  <li style="color: gray">info - Gray</li>
-  <li style="color: green">success - Green</li>
-  <li style="color: yellow">warn - Yellow</li>
-</ul>
+- debug - Cyan
+- error - Red
+- info - Gray
+- success - Green
+- warn - Yellow
 
 If you provide a logDir when instantiating the Logger class, each level will have a file. For example, debug would be `2021.03.17-debug.log` whereas error would be `2021.03.17-error.log`.
 
