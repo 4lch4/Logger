@@ -1,46 +1,48 @@
-import chalk from 'chalk'
-import { DefaultColors } from './defaults'
 import { IColorOpts, ILogger, Level, LogFormat } from './interfaces'
+import { DefaultColors, DefaultLogFormat, Formatter } from './lib'
 
 export class Logger implements ILogger {
-  // private _format: LogFormat
-  private colors: IColorOpts = DefaultColors
+  private formatter: Formatter
 
+  constructor(format?: LogFormat, colors?: IColorOpts) {
+    let colorOpts = DefaultColors
+    let formatOpt = DefaultLogFormat
 
-  constructor(_format: LogFormat, colors?: IColorOpts) {
-    if (colors) this.colors = colors
-    // this._format = format
+    if (colors) colorOpts = colors
+    if (format) formatOpt = format
+
+    this.formatter = new Formatter(formatOpt, colorOpts)
   }
-
-  private colorMsg(msg: string, level: Level) {
-    return chalk.keyword(this.colors[level])(msg)
-  }
-
-  // private formatMsg(msg: string, level: Level) {
-  // }
 
   info(msg: string) {
-    console.log(this.colorMsg(msg, Level.info))
+    console.log(this.formatter.formatMsg(msg, Level.info))
   }
 
   warn(msg: string) {
-    console.log(this.colorMsg(msg, Level.warn))
+    console.log(this.formatter.formatMsg(msg, Level.warn))
   }
 
   debug(msg: string) {
-    console.log(this.colorMsg(msg, Level.debug))
+    console.log(this.formatter.formatMsg(msg, Level.debug))
   }
 
-  error(msg: string | Error, ..._extra: any[]) {
-    console.log(this.colorMsg(msg instanceof Error ? msg.message : msg, Level.error))
-    console.log(this.colorMsg(_extra.join('\n'), Level.error))
+  error(msg: string | Error, ...extra: any[]) {
+    if (msg instanceof Error) {
+      console.log(this.formatter.formatMsg(msg.message, Level.error))
+    } else {
+      console.log(this.formatter.formatMsg(msg, Level.error))
+    }
+
+    if (extra.length > 0) {
+      console.log(this.formatter.formatMsg(extra.join('\n'), Level.error))
+    }
   }
 
   success(msg: string) {
-    console.log(this.colorMsg(msg, Level.success))
+    console.log(this.formatter.formatMsg(msg, Level.success))
   }
 
   log(msg: string, level: any) {
-    console.log(this.colorMsg(msg, level))
+    console.log(this.formatter.formatMsg(msg, level))
   }
 }
