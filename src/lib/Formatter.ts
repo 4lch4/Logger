@@ -2,9 +2,9 @@ import chalk from 'chalk'
 import dayjs from 'dayjs'
 import AdvancedFormats from 'dayjs/plugin/advancedFormat'
 import { hostname } from 'os'
-import { DefaultDayJSFormats } from '.'
 import { IColorOpts, Level } from '../interfaces'
 import { LogFormat } from '../interfaces/LogFormat'
+import { DefaultDayJSFormats } from './'
 
 dayjs.extend(AdvancedFormats)
 
