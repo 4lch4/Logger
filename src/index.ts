@@ -32,7 +32,9 @@ export class Logger implements ILogger {
   }
 
   error(msg: string | Error, ..._extra: any[]) {
-    console.log(this.colorMsg(msg instanceof Error ? msg.message : msg, Level.error))
+    console.log(
+      this.colorMsg(msg instanceof Error ? msg.message : msg, Level.error)
+    )
     console.log(this.colorMsg(_extra.join('\n'), Level.error))
   }
 
