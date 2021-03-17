@@ -33,6 +33,10 @@
     "dayjs": "^1.10.4"
   },
   "devDependencies": {
+    "@types/fs-extra": "^9.0.8",
     "np": "^7.4.0"
+  },
+  "optionalDependencies": {
+    "fs-extra": "^9.1.0"
   }
 }
