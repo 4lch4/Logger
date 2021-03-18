@@ -2,9 +2,26 @@
 
 This module is a small utility module for logging to stdout and, if desired, to also log to files.
 
+## Installation
+
+The module is published to the NPM registry so you're able to install it as you would any other module:
+
+```shell
+# Using NPM
+npm install --save @4lch4/logger
+
+# Using Yarn
+yarn add @4lch4/logger
+
+# Using PNPM
+pnpm install @4lch4/logger
+```
+
 ## Usage
 
-Using the logger is fairly straight forward. Once you've installed it you can import it and instantiate a new class to be used throughout your application:
+Using the logger is fairly straight forward. Import the Logger, create a new instance with some optional properties, then use that instance throughout your application:
+
+  > **_NOTE: You can also create new instances throughout your app and it will log to the same files/locations._**
 
 ```typescript
 import { Logger } from '@4lch4/logger'
