@@ -5,7 +5,7 @@
   "description": "A small utility for logging to console within NodeJS/TypeScript applications.",
   "main": "dist/index.js",
   "scripts": {
-    "prepublish": "tsc",
+    "prepublishonly": "tsc",
     "release": "np"
   },
   "keywords": [
