@@ -8,7 +8,13 @@
     "prepublish": "tsc",
     "release": "np"
   },
-  "keywords": [],
+  "keywords": [
+    "util",
+    "logger",
+    "log",
+    "logging",
+    "stdout"
+  ],
   "author": {
     "name": "4lch4",
     "url": "https://4lch4.dev",
