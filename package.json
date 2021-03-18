@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "prepublish": "tsc",
-    "semantic-release": "semantic-release"
+    "release": "np"
   },
   "keywords": [],
   "author": {
@@ -35,9 +35,6 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.8",
-    "semantic-release": "^17.4.2"
-  },
-  "release": {
-    "branches": ["main", "release"]
+    "np": "^7.4.0"
   }
 }
