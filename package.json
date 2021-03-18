@@ -1,12 +1,12 @@
 {
   "name": "@4lch4/logger",
   "displayName": "Logger",
-  "version": "1.1.3",
+  "version": "0.0.0-development",
   "description": "A small utility for logging to console within NodeJS/TypeScript applications.",
   "main": "dist/index.js",
   "scripts": {
     "prepublish": "tsc",
-    "release": "np"
+    "semantic-release": "semantic-release"
   },
   "keywords": [],
   "author": {
@@ -35,6 +35,6 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.8",
-    "np": "^7.4.0"
+    "semantic-release": "^17.4.2"
   }
 }
