@@ -22,7 +22,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-        
+
       # If the version has changed, create a new git tag for it.
       - uses: butlerlogic/action-autotag@stable
         with:
@@ -59,7 +59,7 @@ jobs:
         with:
           scan: './'
         env:
-          REGISTRY_TOKEN: "${{ secrets.NPM_TOKEN }}"
+          REGISTRY_TOKEN: '${{ secrets.NPM_TOKEN }}'
 
   github:
     # The type of runner that the job will run on
@@ -89,4 +89,4 @@ jobs:
         with:
           scan: './'
         env:
-          REGISTRY_TOKEN: "${{ secrets.GH_TOKEN }}"
+          REGISTRY_TOKEN: '${{ secrets.GH_TOKEN }}'

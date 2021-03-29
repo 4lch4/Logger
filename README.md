@@ -21,7 +21,7 @@ pnpm install @4lch4/logger
 
 Using the logger is fairly straight forward. Import the Logger, create a new instance with some optional properties, then use that instance throughout your application:
 
-  > **_NOTE: You can also create new instances throughout your app and it will log to the same files/locations._**
+> **_NOTE: You can also create new instances throughout your app and it will log to the same files/locations._**
 
 ```typescript
 import { Logger } from '@4lch4/logger'
