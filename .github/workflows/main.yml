@@ -26,7 +26,7 @@ jobs:
       # If the version has changed, create a new git tag for it.
       - uses: butlerlogic/action-autotag@stable
         with:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          GITHUB_TOKEN: '${{ secrets.GH_TOKEN }}'
 
       - name: Setup Node.js Environment
         uses: actions/setup-node@v2.1.5
@@ -46,7 +46,7 @@ jobs:
         if: steps.autotagger.outputs.tagcreated == 'yes'
         uses: actions/create-release@v1.0.0
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           tag_name: ${{ steps.autotagger.outputs.tagname }}
           release_name: ${{ steps.autotagger.outputs.tagname }}
@@ -89,4 +89,4 @@ jobs:
         with:
           scan: './'
         env:
-          REGISTRY_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          REGISTRY_TOKEN: "${{ secrets.GH_TOKEN }}"
