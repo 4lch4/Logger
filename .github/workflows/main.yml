@@ -1,0 +1,92 @@
+name: Build and Release
+
+# Controls when the action will run.
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  npm:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    name: Build & Release to NPM
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        
+      # If the version has changed, create a new git tag for it.
+      - uses: butlerlogic/action-autotag@stable
+        with:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v2.1.5
+        with:
+          registry-url: https://registry.npmjs.org/
+          node-version: '14'
+          check-latest: true
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Transpile Code
+        run: npm run build
+
+      - name: Create GitHub Release
+        id: create_release
+        if: steps.autotagger.outputs.tagcreated == 'yes'
+        uses: actions/create-release@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.autotagger.outputs.tagname }}
+          release_name: ${{ steps.autotagger.outputs.tagname }}
+          body: ${{ steps.autotagger.outputs.tagmessage }}
+          draft: false
+          prerelease: ${{ steps.autotagger.outputs.prerelease == 'yes' }}
+
+      - name: Publish To NPM
+        uses: author/action-publish@stable
+        with:
+          scan: './'
+        env:
+          REGISTRY_TOKEN: "${{ secrets.NPM_TOKEN }}"
+
+  github:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    name: Build & Release to GitHub Packages
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v2.1.5
+        with:
+          registry-url: https://npm.pkg.github.com/
+          node-version: '14'
+          check-latest: true
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Transpile Code
+        run: npm run build
+
+      - name: Publish To NPM
+        uses: author/action-publish@stable
+        with:
+          scan: './'
+        env:
+          REGISTRY_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
