@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "pretty": "prettier --write ."
+    "pretty": "prettier --write . && git add . && git commit -m 'ci(pretty): project prettied'"
   },
   "keywords": [
     "util",
