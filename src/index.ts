@@ -70,3 +70,5 @@ export class Logger implements ILogger {
     if (this.ioUtil) this.ioUtil.writeToLog(msg, level)
   }
 }
+
+export const logger = new Logger()
