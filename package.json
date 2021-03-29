@@ -5,7 +5,8 @@
   "description": "A small utility for logging to console within NodeJS/TypeScript applications.",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "pretty": "prettier --write ."
   },
   "keywords": [
     "util",
