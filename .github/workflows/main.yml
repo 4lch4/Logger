@@ -40,19 +40,16 @@ jobs:
 
       - name: Transpile Code
         run: npm run build
-
       - name: Create GitHub Release
-        id: create_release
-        if: steps.autotagger.outputs.tagcreated == 'yes'
-        uses: actions/create-release@v1.0.0
+        uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        with:
-          tag_name: ${{ steps.autotagger.outputs.tagname }}
-          release_name: ${{ steps.autotagger.outputs.tagname }}
-          body: ${{ steps.autotagger.outputs.tagmessage }}
-          draft: false
-          prerelease: ${{ steps.autotagger.outputs.prerelease == 'yes' }}
+        # with:
+        #   tag_name: ${{ steps.autotagger.outputs.tagname }}
+        #   release_name: ${{ steps.autotagger.outputs.tagname }}
+        #   body: ${{ steps.autotagger.outputs.tagmessage }}
+        #   draft: false
+        #   prerelease: ${{ steps.autotagger.outputs.prerelease == 'yes' }}
 
       - name: Publish To NPM
         uses: author/action-publish@stable
