@@ -17,6 +17,8 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     name: Build & Release to NPM
+    env:
+      REGISTRY_URL: https://registry.npmjs.org/
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -31,37 +33,39 @@ jobs:
       - name: Setup Node.js Environment
         uses: actions/setup-node@v2.1.5
         with:
-          registry-url: https://registry.npmjs.org/
+          registry-url: env.REGISTRY_URL
           node-version: '14'
           check-latest: true
+
+      - name: 'Update Registry Field'
+        uses: jossef/action-set-json-field@v1
+        with:
+          file: package.json
+          field: publishConfig.registry
+          value: env.REGISTRY_URL
 
       - name: Install Dependencies
         run: npm install
 
       - name: Transpile Code
         run: npm run build
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        # with:
-        #   tag_name: ${{ steps.autotagger.outputs.tagname }}
-        #   release_name: ${{ steps.autotagger.outputs.tagname }}
-        #   body: ${{ steps.autotagger.outputs.tagmessage }}
-        #   draft: false
-        #   prerelease: ${{ steps.autotagger.outputs.prerelease == 'yes' }}
 
       - name: Publish To NPM
-        uses: author/action-publish@stable
-        with:
-          scan: './'
+        run: npm publish
         env:
-          REGISTRY_TOKEN: '${{ secrets.NPM_TOKEN }}'
+          NODE_AUTH_TOKEN: '${{ secrets.GH_TOKEN }}'
 
   github:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     name: Build & Release to GitHub Packages
+    env:
+      REGISTRY_URL: https://npm.pkg.github.com/
     needs:
       - 'npm'
 
@@ -73,9 +77,16 @@ jobs:
       - name: Setup Node.js Environment
         uses: actions/setup-node@v2.1.5
         with:
-          registry-url: https://npm.pkg.github.com/
+          registry-url: env.REGISTRY_URL
           node-version: '14'
           check-latest: true
+
+      - name: 'Update Registry Field'
+        uses: jossef/action-set-json-field@v1
+        with:
+          file: package.json
+          field: publishConfig.registry
+          value: env.REGISTRY_URL
 
       - name: Install Dependencies
         run: npm install
@@ -83,9 +94,7 @@ jobs:
       - name: Transpile Code
         run: npm run build
 
-      - name: Publish To NPM
-        uses: author/action-publish@stable
-        with:
-          scan: './'
+      - name: Publish to GitHub Package Repository
+        run: npm publish
         env:
-          REGISTRY_TOKEN: '${{ secrets.GH_TOKEN }}'
+          NODE_AUTH_TOKEN: '${{ secrets.GH_TOKEN }}'
