@@ -26,11 +26,13 @@ export class Logger implements ILogger {
     console.log(this.formatter.formatMsg(msg, Level.debug))
   }
 
-  error(msg: string | Error, ...extra: any[]) {
+  error(msg: string | Error | unknown, ...extra: any[]) {
     if (msg instanceof Error) {
       console.log(this.formatter.formatMsg(msg.message, Level.error))
-    } else {
+    } else if (msg instanceof String) {
       console.log(this.formatter.formatMsg(msg, Level.error))
+    } else {
+      console.log(this.formatter.formatMsg(msg as Object, Level.error))
     }
 
     if (extra.length > 0) {
