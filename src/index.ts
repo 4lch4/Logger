@@ -14,15 +14,15 @@ export class Logger implements ILogger {
     this.formatter = new Formatter(formatOpt, colorOpts)
   }
 
-  info(msg: string) {
+  info(msg: string | Object) {
     console.log(this.formatter.formatMsg(msg, Level.info))
   }
 
-  warn(msg: string) {
+  warn(msg: string | Object) {
     console.log(this.formatter.formatMsg(msg, Level.warn))
   }
 
-  debug(msg: string) {
+  debug(msg: string | Object) {
     console.log(this.formatter.formatMsg(msg, Level.debug))
   }
 

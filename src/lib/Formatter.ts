@@ -21,25 +21,31 @@ export class Formatter {
     return chalk.keyword(this.colors[level])(msg)
   }
 
-  formatMsg(msg: string, level: Level) {
-    if (this.format === 'json') {
-      const logOutput = {
-        /** The timestamp for when the message was sent. */
-        time: this.getUTCTime(),
-        host: hostname(),
-        pid: process.pid,
-        level,
-        msg
-      }
+  formatMsg(msg: string | Object, level: Level) {
+    switch (typeof msg) {
+      case 'string': {
+        if (this.format === 'json') {
+          const logOutput = {
+            /** The timestamp for when the message was sent. */
+            time: this.getUTCTime(),
+            host: hostname(),
+            pid: process.pid,
+            level,
+            msg
+          }
 
-      return this.colorMsg(JSON.stringify(logOutput), level)
-    } else {
-      const output = [
-        `[${this.getPrettyTime()}]`,
-        `[${level.toUpperCase()}]`,
-        msg
-      ]
-      return this.colorMsg(output.join(' - '), level)
+          return this.colorMsg(JSON.stringify(logOutput), level)
+        } else {
+          const output = [
+            `[${this.getPrettyTime()}]`,
+            `[${level.toUpperCase()}]`,
+            msg
+          ]
+          return this.colorMsg(output.join(' - '), level)
+        }
+      }
+      case 'object':
+        return this.colorMsg(JSON.stringify(msg), level)
     }
   }
 
