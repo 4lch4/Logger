@@ -35,12 +35,16 @@
   "types": "dist/index.d.ts",
   "license": "ISC",
   "dependencies": {
-    "chalk": "^4.1.0",
-    "dayjs": "^1.10.4",
-    "fs-extra": "^9.1.0"
+    "chalk": "^4.1.2",
+    "dayjs": "^1.10.7",
+    "fs-extra": "^10.0.0"
   },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.8",
-    "np": "^7.4.0"
+    "@types/fs-extra": "^9.0.12",
+    "@types/node": "^16.9.1",
+    "np": "^7.5.0",
+    "prettier": "^2.4.0",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
   }
 }
