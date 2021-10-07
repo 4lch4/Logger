@@ -25,11 +25,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # If the version has changed, create a new git tag for it.
-      - uses: butlerlogic/action-autotag@stable
-        with:
-          GITHUB_TOKEN: '${{ secrets.GH_TOKEN }}'
-
       - name: Setup Node.js Environment
         uses: actions/setup-node@v2.1.5
         with:
@@ -49,11 +44,6 @@ jobs:
 
       - name: Transpile Code
         run: npm run build
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Publish To NPM
         run: npm publish
