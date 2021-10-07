@@ -6,13 +6,13 @@ import { IColorOpts, Level } from '../interfaces'
 import { LogFormat } from '../interfaces/LogFormat'
 import { DefaultDayJSFormats } from './'
 
-dayjs.extend(AdvancedFormats)
-
 export class Formatter {
   format: LogFormat
   colors: IColorOpts
 
   constructor(format: LogFormat, colors: IColorOpts) {
+    dayjs.extend(AdvancedFormats)
+
     this.colors = colors
     this.format = format
   }
