@@ -34,7 +34,7 @@ jobs:
         uses: actions/setup-node@v2.1.5
         with:
           registry-url: env.REGISTRY_URL
-          node-version: '14'
+          node-version: '16'
           check-latest: true
 
       - name: 'Update Registry Field'
@@ -78,7 +78,7 @@ jobs:
         uses: actions/setup-node@v2.1.5
         with:
           registry-url: env.REGISTRY_URL
-          node-version: '14'
+          node-version: '16'
           check-latest: true
 
       - name: 'Update Registry Field'
