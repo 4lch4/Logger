@@ -26,16 +26,9 @@ jobs:
       - name: Setup Node.js Environment
         uses: actions/setup-node@v2.1.5
         with:
-          registry-url: env.REGISTRY_URL
+          registry-url: 'https://registry.npmjs.org/'
           node-version: '16'
           check-latest: true
-
-      - name: 'Update Registry Field'
-        uses: jossef/action-set-json-field@v1
-        with:
-          file: package.json
-          field: publishConfig.registry
-          value: https://registry.npmjs.org/
 
       - name: Install Dependencies
         run: npm install
@@ -63,16 +56,9 @@ jobs:
       - name: Setup Node.js Environment
         uses: actions/setup-node@v2.1.5
         with:
-          registry-url: env.REGISTRY_URL
+          registry-url: 'https://npm.pkg.github.com/'
           node-version: '16'
           check-latest: true
-
-      - name: 'Update Registry Field'
-        uses: jossef/action-set-json-field@v1
-        with:
-          file: package.json
-          field: publishConfig.registry
-          value: https://npm.pkg.github.com/
 
       - name: Install Dependencies
         run: npm install
