@@ -2,3 +2,5 @@ node_modules
 tsconfig.json
 yarn.lock
 package-lock.json
+coverage
+.github
