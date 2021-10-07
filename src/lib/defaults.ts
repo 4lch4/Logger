@@ -12,6 +12,6 @@ export const DefaultColors: IColorOpts = {
 export const DefaultLogFormat: LogFormat = 'plaintext'
 
 export const DefaultDayJSFormats = {
-  prettyFormat: 'YYYY.MM.DD-mm:HH:ss',
+  prettyFormat: 'YYYY.MM.DD-HH:mm:ss',
   utcMillisecondsFormat: 'x'
 }
