@@ -3,7 +3,7 @@ name: Publish to NPM/GitHub Registries
 on:
   push:
     tags:
-      - "*"
+      - '*'
 
 jobs:
   npm-release:
@@ -64,4 +64,3 @@ jobs:
         run: npm publish
         env:
           NODE_AUTH_TOKEN: '${{ secrets.GH_TOKEN }}'
-
