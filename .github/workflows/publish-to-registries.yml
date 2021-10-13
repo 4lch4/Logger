@@ -26,6 +26,9 @@ jobs:
       - name: Transpile Code
         run: npm run build
 
+      - name: Test Code
+        run: npm test
+
       - name: Publish To NPM
         run: npm publish
         env:
@@ -53,6 +56,9 @@ jobs:
 
       - name: Transpile Code
         run: npm run build
+
+      - name: Test Code
+        run: npm test
 
       - name: Publish to GitHub Package Repository
         run: npm publish
