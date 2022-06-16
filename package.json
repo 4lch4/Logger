@@ -4,6 +4,7 @@
   "version": "1.7.4",
   "description": "A small utility for logging to console within NodeJS/TypeScript applications.",
   "main": "dist/index.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "pretty": "prettier --write . && git add . && git commit -m 'ci(pretty): project prettied'",
