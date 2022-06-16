@@ -1,5 +1,5 @@
 import { Color } from 'chalk'
-import { Level } from '.'
+import { Level } from './index.js'
 
 export interface IColorOpts {
   [Level.debug]: typeof Color

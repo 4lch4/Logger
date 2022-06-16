@@ -1,5 +1,5 @@
-import { ILoggerOpts, Level } from './interfaces'
-import { DefaultColors, DefaultLogFormat, Formatter } from './lib'
+import { ILoggerOpts, Level } from './interfaces/index.js'
+import { DefaultColors, DefaultLogFormat, Formatter } from './lib/index.js'
 
 /**
  * This class is the main/only class of the library. It contains the various

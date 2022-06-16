@@ -1,5 +1,4 @@
-import { IColorOpts } from '../interfaces/IColorOpts'
-import { LogFormat } from '../interfaces/LogFormat'
+import { IColorOpts, LogFormat } from '../interfaces/index.js'
 
 export const DefaultColors: IColorOpts = {
   debug: 'cyan',

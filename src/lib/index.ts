@@ -1,2 +1,2 @@
-export * from './defaults'
-export * from './Formatter'
+export * from './defaults.js'
+export * from './Formatter.js'

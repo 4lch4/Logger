@@ -1,4 +1,4 @@
-import { Level } from '.'
+import { Level } from './index.js'
 
 /**
  * The default logger that's exported by the module.

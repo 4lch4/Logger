@@ -1,4 +1,4 @@
-import { IColorOpts, LogFormat } from '.'
+import { IColorOpts, LogFormat } from './index.js'
 
 export interface ILoggerOpts {
   /** The format of the messages that are logged. */

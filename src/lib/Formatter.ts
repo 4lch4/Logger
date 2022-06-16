@@ -1,10 +1,9 @@
 import chalk from 'chalk'
 import dayjs from 'dayjs'
 import AdvancedFormats from 'dayjs/plugin/advancedFormat'
-import { hostname } from 'os'
-import { IColorOpts, Level } from '../interfaces'
-import { LogFormat } from '../interfaces/LogFormat'
-import { DefaultDayJSFormats } from './'
+import os from 'os'
+import { IColorOpts, Level, LogFormat } from '../interfaces/index.js'
+import { DefaultDayJSFormats } from './index.js'
 
 export class Formatter {
   format: LogFormat
