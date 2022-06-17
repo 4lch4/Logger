@@ -8,7 +8,7 @@
  * —————————————————————————————————————————————————————————————————————————————
  * File Path				— /src/index.ts
  * File Created			— 2021-10-07 @ 13:12:22-05:00
- * Last Modified		— 2022-06-17 @ 01:34:18-05:00
+ * Last Modified		— 2022-06-17 @ 01:35:45-05:00
  * Modified By			— Devin W. Leaman (4lch4) (hey@4lch4.email)
  * —————————————————————————————————————————————————————————————————————————————
  * MIT License ⸺ http://www.opensource.org/licenses/MIT
@@ -53,7 +53,7 @@ export class Logger {
   info(msg: string | Object, ...optionalParams: any[]): void {
     if (optionalParams.length > 0) {
       console.log(this.formatter.formatMsg(msg, Level.info), optionalParams)
-    } else console.log(msg)
+    } else console.log(this.formatter.formatMsg(msg, Level.info))
   }
 
   /**
