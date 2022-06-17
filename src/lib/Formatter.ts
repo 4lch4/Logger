@@ -38,7 +38,7 @@ export class Formatter {
    * @returns The given message colored for the given level.
    */
   colorMsg(msg: string, level: Level) {
-    return chalk.keyword(this.colors[level])(msg)
+    return chalk[this.colors[level]](msg)
   }
 
   private stringifyMsg(msg: string | Object): string {

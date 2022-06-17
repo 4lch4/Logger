@@ -3,11 +3,11 @@ import { Level } from './index.js'
 
 /** The options for the color of each log level. */
 export interface IColorOpts {
-  [Level.debug]: typeof Color
-  [Level.error]: typeof Color
-  [Level.info]: typeof Color
-  [Level.success]: typeof Color
-  [Level.warn]: typeof Color
+  [Level.debug]: Color
+  [Level.error]: Color
+  [Level.info]: Color
+  [Level.success]: Color
+  [Level.warn]: Color
 }
 
 /**
@@ -16,9 +16,9 @@ export interface IColorOpts {
  * default colors, see the exported `DefaultColors` object.
  */
 export interface IColorOptsInput {
-  [Level.debug]?: string | typeof Color
-  [Level.error]?: string | typeof Color
-  [Level.info]?: string | typeof Color
-  [Level.success]?: string | typeof Color
-  [Level.warn]?: string | typeof Color
+  [Level.debug]?: string | Color
+  [Level.error]?: string | Color
+  [Level.info]?: string | Color
+  [Level.success]?: string | Color
+  [Level.warn]?: string | Color
 }
