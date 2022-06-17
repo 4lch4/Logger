@@ -8,7 +8,7 @@
  * —————————————————————————————————————————————————————————————————————————————
  * File Path				— /src/index.ts
  * File Created			— 2021-10-07 @ 13:12:22-05:00
- * Last Modified		— 2022-06-17 @ 01:27:12-05:00
+ * Last Modified		— 2022-06-17 @ 01:34:18-05:00
  * Modified By			— Devin W. Leaman (4lch4) (hey@4lch4.email)
  * —————————————————————————————————————————————————————————————————————————————
  * MIT License ⸺ http://www.opensource.org/licenses/MIT
@@ -51,10 +51,9 @@ export class Logger {
    * @param optionalParams Any extra parameters to pass to the console module.
    */
   info(msg: string | Object, ...optionalParams: any[]): void {
-    console.log(
-      this.formatter.formatMsg(msg, Level.info),
-      optionalParams.length > 0 ? optionalParams.join('\n') : undefined
-    )
+    if (optionalParams.length > 0) {
+      console.log(this.formatter.formatMsg(msg, Level.info), optionalParams)
+    } else console.log(msg)
   }
 
   /**
@@ -65,10 +64,9 @@ export class Logger {
    * @param optionalParams Any extra parameters to pass to the console module.
    */
   warn(msg: string | Object, ...optionalParams: any[]): void {
-    console.log(
-      this.formatter.formatMsg(msg, Level.warn),
-      optionalParams.length > 0 ? optionalParams.join('\n') : undefined
-    )
+    if (optionalParams.length > 0) {
+      console.warn(this.formatter.formatMsg(msg, Level.warn), optionalParams)
+    } else console.warn(this.formatter.formatMsg(msg, Level.warn))
   }
 
   /**
@@ -80,10 +78,9 @@ export class Logger {
    */
   debug(msg: string | Object, ...optionalParams: any[]): void {
     if (process.env.DEBUG) {
-      console.log(
-        this.formatter.formatMsg(msg, Level.debug),
-        optionalParams.length > 0 ? optionalParams.join('\n') : undefined
-      )
+      if (optionalParams.length > 0) {
+        console.log(this.formatter.formatMsg(msg, Level.debug), optionalParams)
+      } else console.log(this.formatter.formatMsg(msg, Level.debug))
     }
   }
 
@@ -101,20 +98,30 @@ export class Logger {
    */
   error(msg: string | Error | unknown, ...optionalParams: any[]): void {
     if (msg instanceof Error) {
-      console.error(
-        this.formatter.formatMsg(msg.message, Level.error),
-        optionalParams.length > 0 ? optionalParams.join('\n') : undefined
-      )
-    } else if (msg instanceof String) {
-      console.error(
-        this.formatter.formatMsg(msg, Level.error),
-        optionalParams.length > 0 ? optionalParams.join('\n') : undefined
-      )
+      if (optionalParams.length > 0) {
+        console.error(
+          this.formatter.formatMsg(msg.message, Level.error),
+          optionalParams
+        )
+      } else console.error(this.formatter.formatMsg(msg.message, Level.error))
+    } else if (typeof msg === 'string') {
+      if (optionalParams.length > 0) {
+        console.error(
+          this.formatter.formatMsg(msg, Level.error),
+          optionalParams
+        )
+      } else console.error(this.formatter.formatMsg(msg, Level.error))
     } else {
-      console.error(
-        this.formatter.formatMsg(msg as Object, Level.error),
-        optionalParams.length > 0 ? optionalParams.join('\n') : undefined
-      )
+      if (optionalParams.length > 0) {
+        console.error(
+          this.formatter.formatMsg(JSON.stringify(msg), Level.error),
+          optionalParams
+        )
+      } else {
+        console.error(
+          this.formatter.formatMsg(JSON.stringify(msg), Level.error)
+        )
+      }
     }
   }
 
@@ -126,10 +133,10 @@ export class Logger {
    * @param optionalParams Any extra parameters to pass to the console module.
    */
   success(msg: string, ...optionalParams: any[]): void {
-    console.log(
-      this.formatter.formatMsg(msg, Level.success),
-      optionalParams.length > 0 ? optionalParams.join('\n') : undefined
-    )
+    const msgOut = this.formatter.formatMsg(msg, Level.success)
+
+    if (optionalParams.length > 0) console.log(msgOut, optionalParams)
+    else console.log(msgOut)
   }
 
   /**
@@ -140,10 +147,10 @@ export class Logger {
    * @param optionalParams Any extra parameters to pass to the console module.
    */
   log(msg: string, level: any, ...optionalParams: any[]): void {
-    console.log(
-      this.formatter.formatMsg(msg, level),
-      optionalParams.length > 0 ? optionalParams.join('\n') : undefined
-    )
+    const msgOut = this.formatter.formatMsg(msg, level)
+
+    if (optionalParams.length > 0) console.log(msgOut, optionalParams)
+    else console.log(msgOut)
   }
 }
 
