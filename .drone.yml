@@ -1,0 +1,5 @@
+kind: template
+load: Build & Publish NPM Lib.yaml
+data:
+  repoOwner: 4lch4
+  repoName: Logger
