@@ -8,7 +8,7 @@
     "build": "tsc",
     "pretty": "prettier --write .",
     "pretty:commit": "prettier --write . && git add . && git commit -m 'ci(pretty): project prettied'",
-    "test": "mocha --reporter spec --require ts-node/register tests/*.test.ts"
+    "test": "nyc --reporter=lcov mocha --reporter spec --require ts-node/register ts tests/*.test.ts"
   },
   "keywords": [
     "util",
@@ -42,12 +42,14 @@
     "fs-extra": "^10.1.0"
   },
   "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@types/chai": "^4.3.1",
     "@types/fs-extra": "^9.0.13",
     "@types/mocha": "^9.1.1",
     "@types/node": "^16",
     "chai": "^4.3.6",
     "mocha": "^10.0.0",
+    "nyc": "^15.1.0",
     "np": "^7.6.1",
     "prettier": "^2.7.1",
     "ts-node": "^10.8.1",
