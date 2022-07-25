@@ -1,5 +1,78 @@
-kind: template
-load: Build-And-Publish-TS-Module.yaml
-data:
-  repoOwner: 4lch4
-  repoName: Logger
+---
+type: docker
+kind: pipeline
+name: Build
+
+trigger:
+  event:
+    include:
+      - push
+    exclude:
+      - promote
+
+steps:
+  - name: Build
+    image: node
+    commands:
+      - npm install
+      - npm run build
+      - npm test
+
+  - name: codecov
+    image: robertstettner/drone-codecov
+    settings:
+      files:
+        - "coverage/**"
+      token:
+        from_secret: CODECOV_TOKEN
+
+  - name: Publish to Codacy
+    image: plugins/codacy
+    settings:
+      token:
+        from_secret: CODACY_TOKEN
+
+  - name: Send Built Notification
+    image: appleboy/drone-discord
+    settings:
+      webhook_id:
+        from_secret: DISCORD_WEBHOOK_ID
+      webhook_token:
+        from_secret: DISCORD_WEBHOOK_TOKEN
+      message: 'The latest build of [4lch4/Logger](https://drone.4lch4.io/4lch4/Logger) was successful.'
+
+---
+type: docker
+kind: pipeline
+name: Publish
+
+depends_on:
+  - "Build"
+
+trigger:
+  event:
+    include:
+      - promote
+
+steps:
+  - name: Build Code
+    image: node
+    commands:
+      - npm install
+      - npm run build
+
+  - name: Publish to NPM
+    image: plugins/npm
+    settings:
+      username: 4lch4
+      token:
+        from_secret: NPM_TOKEN
+
+  - name: Send Published Notification
+    image: appleboy/drone-discord
+    settings:
+      webhook_id:
+        from_secret: DISCORD_WEBHOOK_ID
+      webhook_token:
+        from_secret: DISCORD_WEBHOOK_TOKEN
+      message: 'The latest version of [4lch4/Logger](https://drone.4lch4.io/4lch4/Logger) was successfully published.'
