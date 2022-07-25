@@ -11,6 +11,11 @@ trigger:
       - promote
 
 steps:
+  - name: Execute Gitleaks
+    image: plugins/gitleaks
+    settings:
+      path: .
+
   - name: Build
     image: node
     commands:
