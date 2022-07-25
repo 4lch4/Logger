@@ -22,13 +22,14 @@ steps:
     image: robertstettner/drone-codecov
     settings:
       files:
-        - "coverage/**"
+        - coverage/**
       token:
         from_secret: CODECOV_TOKEN
 
   - name: Publish to Codacy
     image: plugins/codacy
     settings:
+      pattern: coverage/**
       token:
         from_secret: CODACY_TOKEN
 
