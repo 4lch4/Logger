@@ -1,11 +1,11 @@
 import * as chai from 'chai'
 import * as mocha from 'mocha'
-import { Level } from '../src/interfaces'
+import { Level } from '../dist/interfaces/index.js'
 import {
   DefaultColors,
   DefaultDayJSFormats,
   DefaultLogFormat
-} from '../src/lib/defaults'
+} from '../dist/lib/defaults.js'
 import { COLOR_MAP } from './TestData'
 
 const expect = chai.expect

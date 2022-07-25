@@ -1,6 +1,6 @@
 import * as chai from 'chai'
 import * as mocha from 'mocha'
-import { Formatter } from '../src/lib'
+import { Formatter } from '../dist/lib/index.js'
 
 const expect = chai.expect
 const describe = mocha.describe

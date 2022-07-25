@@ -1,4 +1,4 @@
-import { Level } from '../src/interfaces'
+import { Level } from '../dist/interfaces/index.js'
 
 export const COLOR_MAP = {
   [Level.debug]: 'cyan',

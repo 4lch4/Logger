@@ -1,6 +1,6 @@
 import * as chai from 'chai'
 import * as mocha from 'mocha'
-import { Logger, logger } from '../src'
+import { Logger, logger } from '../dist/index.js'
 
 const expect = chai.expect
 const describe = mocha.describe

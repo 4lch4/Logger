@@ -5,7 +5,7 @@ import {
   DefaultDayJSFormats,
   DefaultLogFormat,
   Formatter
-} from '../src/lib'
+} from '../dist/lib/index.js'
 
 const expect = chai.expect
 const describe = mocha.describe
