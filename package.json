@@ -24,12 +24,12 @@
   },
   "bugs": {
     "email": "bugs@4lch4.dev",
-    "url": "https://github.com/4lch4/logger/issues"
+    "url": "https://git.4lch4.io/4lch4/Logger/issues"
   },
-  "homepage": "https://github.com/4lch4/logger",
+  "homepage": "https://git.4lch4.io/4lch4/Logger",
   "repository": {
     "type": "git",
-    "url": "https://github.com/4lch4/logger"
+    "url": "https://git.4lch4.io/4lch4/Logger"
   },
   "publishConfig": {
     "access": "public"
