@@ -23,21 +23,6 @@ steps:
       - npm run build
       - npm test
 
-  - name: codecov
-    image: robertstettner/drone-codecov
-    settings:
-      files:
-        - coverage/**
-      token:
-        from_secret: CODECOV_TOKEN
-
-  - name: Publish to Codacy
-    image: plugins/codacy
-    settings:
-      pattern: coverage/**
-      token:
-        from_secret: CODACY_TOKEN
-
   - name: Send Built Notification
     image: appleboy/drone-discord
     settings:
