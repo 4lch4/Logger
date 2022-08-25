@@ -82,8 +82,3 @@ steps:
       webhook_token:
         from_secret: DISCORD_WEBHOOK_TOKEN
       message: 'The latest version of [4lch4/Logger](https://drone.4lch4.io/4lch4/Logger) was successfully published.'
----
-kind: signature
-hmac: 8c2ca86e631d2431d6b1f506b738d10d1c31af5b22576320e73d416e1fcd58c5
-
-...
