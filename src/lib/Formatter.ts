@@ -2,7 +2,7 @@ import chalk from 'chalk'
 import dayjs from 'dayjs'
 import AdvancedFormats from 'dayjs/plugin/advancedFormat'
 import os from 'os'
-import { IColorOpts, Level, LogFormat } from '../interfaces/index.js'
+import { IColorOptions, Level, LogFormat } from '../interfaces/index.js'
 import { DefaultDayJSFormats } from './index.js'
 
 /**
@@ -12,7 +12,7 @@ import { DefaultDayJSFormats } from './index.js'
  */
 export class Formatter {
   format: LogFormat
-  colors: IColorOpts
+  colors: IColorOptions
 
   /**
    * The constructor for the Formatter class. Both parameters are required for
@@ -23,7 +23,7 @@ export class Formatter {
    * @param format The format to use for logging messages.
    * @param colors An object that defines the colors to use for each level.
    */
-  constructor(format: LogFormat, colors: IColorOpts) {
+  constructor(format: LogFormat, colors: IColorOptions) {
     this.colors = colors
     this.format = format
 
