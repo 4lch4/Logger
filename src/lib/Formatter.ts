@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import dayjs from 'dayjs'
-import AdvancedFormats from 'dayjs/plugin/advancedFormat'
+import AdvancedFormats from 'dayjs/plugin/advancedFormat.js'
 import os from 'os'
 import { IColorOptions, Level, LogFormat } from '../interfaces/index.js'
 import { DefaultDayJSFormats } from './index.js'

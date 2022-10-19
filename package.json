@@ -3,7 +3,9 @@
   "displayName": "Logger",
   "version": "1.11.0",
   "description": "A small utility for logging to console within NodeJS/TypeScript applications.",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "exports": "./dist/index.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "pretty": "prettier --write .",
@@ -17,6 +19,9 @@
     "logging",
     "stdout"
   ],
+  "engines": {
+    "node": ">=16"
+  },
   "author": {
     "name": "4lch4",
     "url": "https://4lch4.com",
