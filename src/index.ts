@@ -341,6 +341,7 @@ export class Logger {
 
 /**
  * A basic instance of the {@link Logger} class using some sane defaults for the
- * config options.
+ * config options. For more information regarding the default options, refer to
+ * the {@link DefaultLoggerOpts} object.
  */
-export const logger = new Logger()
+export const logger = new Logger(DefaultLoggerOpts)
