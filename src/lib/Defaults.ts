@@ -1,7 +1,7 @@
 import { IColorOptions, LogFormat } from '../interfaces/index.js'
 
 /** An object containing the default colors to use for each logging level. */
-export const DefaultColors: IColorOptions = {
+export const DEFAULT_COLORS: IColorOptions = {
   debug: 'cyan',
   error: 'red',
   info: 'gray',
@@ -10,10 +10,10 @@ export const DefaultColors: IColorOptions = {
 }
 
 /** The default format to use for logging. */
-export const DefaultLogFormat: LogFormat = 'plaintext'
+export const DEFAULT_LOG_FORMAT: LogFormat = 'plaintext'
 
 /** The default formatting options to use w/ DayJS. */
-export const DefaultDayJSFormats = {
+export const DEFAULT_DAYJS_FORMATS = {
   /** The standard pretty format: `YYYY.MM.DD-HH:mm:ss` */
   prettyFormat: 'YYYY.MM.DD-HH:mm:ss',
 
@@ -22,10 +22,10 @@ export const DefaultDayJSFormats = {
 }
 
 /** The default options to use for the logger. */
-export const DefaultLoggerOpts = {
+export const DEFAULT_LOGGER_OPTIONS = {
   /** An object containing the default colors to use for each logging level. */
-  colorOpts: DefaultColors,
+  colorOpts: DEFAULT_COLORS,
 
   /** The default format to use for logging. */
-  format: DefaultLogFormat
+  format: DEFAULT_LOG_FORMAT
 }

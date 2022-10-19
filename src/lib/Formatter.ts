@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import AdvancedFormats from 'dayjs/plugin/advancedFormat.js'
 import os from 'os'
 import { IColorOptions, Level, LogFormat } from '../interfaces/index.js'
-import { DefaultDayJSFormats } from './index.js'
+import { DEFAULT_DAYJS_FORMATS } from './index.js'
 
 /**
  * A utility class used for formatting messages.
@@ -79,11 +79,11 @@ export class Formatter {
 
   /** Returns the time as UTC Milliseconds. */
   getUTCTime() {
-    return dayjs().format(DefaultDayJSFormats.utcMillisecondsFormat)
+    return dayjs().format(DEFAULT_DAYJS_FORMATS.utcMillisecondsFormat)
   }
 
   /** Returns the current time using a pretty format: `YYYY.MM.DD-HH:mm:ss` */
   getPrettyTime() {
-    return dayjs().format(DefaultDayJSFormats.prettyFormat)
+    return dayjs().format(DEFAULT_DAYJS_FORMATS.prettyFormat)
   }
 }

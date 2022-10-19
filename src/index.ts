@@ -1,8 +1,9 @@
 import { IInspectOptions, ILoggerOpts, Level } from './interfaces/index.js'
 import {
-  DefaultColors,
-  DefaultLogFormat,
-  DefaultLoggerOpts,
+  DEFAULT_COLORS,
+  DEFAULT_COLUMN_WIDTH,
+  DEFAULT_LOGGER_OPTIONS,
+  DEFAULT_LOG_FORMAT,
   Formatter
 } from './lib/index.js'
 
@@ -28,8 +29,8 @@ export class Logger {
    * @param loggerOpts An optional object containing the options for the logger.
    */
   constructor(loggerOpts?: ILoggerOpts) {
-    let colorOpts = DefaultColors
-    let formatOpt = DefaultLogFormat
+    let colorOpts = DEFAULT_COLORS
+    let formatOpt = DEFAULT_LOG_FORMAT
 
     if (loggerOpts?.format) formatOpt = loggerOpts.format
     if (loggerOpts?.colorOpts) colorOpts = loggerOpts.colorOpts
@@ -342,6 +343,7 @@ export class Logger {
 /**
  * A basic instance of the {@link Logger} class using some sane defaults for the
  * config options. For more information regarding the default options, refer to
- * the {@link DefaultLoggerOpts} object.
+ * the {@link DEFAULT_LOGGER_OPTIONS} object.
  */
-export const logger = new Logger(DefaultLoggerOpts)
+export const logger = new Logger(DEFAULT_LOGGER_OPTIONS)
+export default Logger
