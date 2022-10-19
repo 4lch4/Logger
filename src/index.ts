@@ -146,6 +146,197 @@ export class Logger {
     else console.log(msgOut)
   }
 
+  /** A convenience method for clearing the console. */
+  clear(): void {
+    console.clear()
+  }
+
+  /**
+   * Maintains an internal counter specific to `label` and outputs to `stdout`
+   * the number of times `logger.count()` has been called with the given
+   * `label`.
+   *
+   * @param label The label associated with the counter.
+   *
+   * @example
+   * > logger.count()
+   * default: 1
+   * undefined
+   * > logger.count('default')
+   * default: 2
+   * undefined
+   * > logger.count('abc')
+   * abc: 1
+   * undefined
+   * > logger.count('xyz')
+   * xyz: 1
+   * undefined
+   * > logger.count('abc')
+   * abc: 2
+   * undefined
+   * > logger.count()
+   * default: 3
+   * undefined
+   */
+  count(label?: string): void {
+    return console.count(label)
+  }
+
+  /**
+   * Resets the internal counter specific to the provided `label` parameter.
+   *
+   * @param label The label associated with the counter.
+   *
+   * @example
+   * > console.count('abc');
+   * abc: 1
+   * undefined
+   * > console.countReset('abc');
+   * undefined
+   * > console.count('abc');
+   * abc: 1
+   * undefined
+   */
+  countReset(label?: string): void {
+    return console.countReset(label)
+  }
+
+  /**
+   * Try to construct a table with the columns of the properties of
+   * `tabularData` (or use `properties`) and rows of `tabularData` and log it.
+   * Falls back to just logging the argument if it can’t be parsed as tabular.
+   *
+   * @param tabularData The data to output to `stdout`.
+   * @param properties The properties to display in the table.
+   *
+   * @returns Nothing.
+   *
+   * @example
+   * // These can't be parsed as tabular data
+   * console.table(Symbol());
+   * // Symbol()
+   *
+   * console.table(undefined);
+   * // undefined
+   *
+   * console.table([{ a: 1, b: 'Y' }, { a: 'Z', b: 2 }]);
+   * // ┌─────────┬─────┬─────┐
+   * // │ (index) │  a  │  b  │
+   * // ├─────────┼─────┼─────┤
+   * // │    0    │  1  │ 'Y' │
+   * // │    1    │ 'Z' │  2  │
+   * // └─────────┴─────┴─────┘
+   *
+   * console.table([{ a: 1, b: 'Y' }, { a: 'Z', b: 2 }], ['a']);
+   * // ┌─────────┬─────┐
+   * // │ (index) │  a  │
+   * // ├─────────┼─────┤
+   * // │    0    │  1  │
+   * // │    1    │ 'Z' │
+   * // └─────────┴─────┘
+   */
+  table(tabularData: any[], properties?: string[]): void {
+    return console.table(tabularData, properties)
+  }
+
+  /**
+   * Uses `util.inspect()` on `obj` and prints the resulting string to `stdout`.
+   * This function bypasses any custom `inspect()` function defined on `obj`.
+   *
+   * @param object The object to inspect and output to `stdout`.
+   * @param options An optional object that contains options to be passed to `util.inspect`.
+   */
+  dir(object: any, options?: IInspectOptions): void {
+    return console.dir(object, options)
+  }
+
+  /**
+   * Increases indentation of subsequent lines by spaces for
+   * `groupIndentationlength`.
+   *
+   * If one or more `label`s are provided, those are printed first without the
+   * additional indentation.
+   *
+   * @param label The label(s) to use for the grouping.
+   */
+  group(...label: any[]): void {
+    return console.group(...label)
+  }
+
+  /**
+   * Decreases indentation of subsequent lines by spaces for
+   * `groupIndentationlength`.
+   */
+  groupEnd(): void {
+    return console.groupEnd()
+  }
+
+  /**
+   * Starts a timer that can be used to compute the duration of an operation.
+   * Timers are identified by a unique `label`. Use the same `label` when
+   * calling `timeEnd` to stop the timer and output the elapsed time in suitable
+   * time units to `stdout`. For example, if the elapsed time is 3869ms,
+   * `logger.timeEnd()` displays "3.869s".
+   */
+  time(label?: string | undefined): void {
+    return console.time(label)
+  }
+
+  /**
+   * Stops a timer that was previously started by calling time and prints the
+   * result to `stdout` like the following example:
+   *
+   * @example
+   * ```
+   * logger.time('100-elements');
+   * for (let i = 0; i < 100; i++) {}
+   * logger.timeEnd('100-elements');
+   * // prints 100-elements: 225.438ms
+   * ```
+   */
+  timeEnd(label?: string | undefined): void {
+    return console.timeEnd(label)
+  }
+
+  /**
+   * For a timer that was previously started by calling `time`, prints the
+   * elapsed time and other `data` arguments to `stdout`:
+   *
+   * @example
+   * console.time('process');
+   * const value = expensiveProcess1(); // Returns 42
+   * console.timeLog('process', value);
+   *
+   * // Prints "process: 365.227ms 42".
+   * doExpensiveProcess2(value);
+   * console.timeEnd('process');
+   */
+  timeLog(label?: string | undefined, ...data: any[]): void {
+    return console.timeLog(label, data)
+  }
+
+  /**
+   * Prints to `stderr` the string `'Trace: '`, followed by the `util.format()`
+   * formatted message and stack trace to the current position in the code.
+   *
+   * @example
+   * console.trace('Show me');
+   * // Prints: (stack trace will vary based on where trace is called)
+   * //  Trace: Show me
+   * //    at repl:2:9
+   * //    at REPLServer.defaultEval (repl.js:248:27)
+   * //    at bound (domain.js:287:14)
+   * //    at REPLServer.runBound [as eval] (domain.js:300:12)
+   * //    at REPLServer.<anonymous> (repl.js:412:12)
+   * //    at emitOne (events.js:82:20)
+   * //    at REPLServer.emit (events.js:169:7)
+   * //    at REPLServer.Interface._onLine (readline.js:210:10)
+   * //    at REPLServer.Interface._line (readline.js:549:8)
+   * //    at REPLServer.Interface._ttyWrite (readline.js:826:14)
+   */
+  trace(message?: any, ...optionalParams: any[]): void {
+    return console.trace(message, optionalParams)
+  }
 }
 
 /**
