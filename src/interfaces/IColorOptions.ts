@@ -1,13 +1,13 @@
-import { Color } from 'chalk'
+import { ColorName } from 'chalk'
 import { Level } from './index.js'
 
 /** The options for the color of each log level. */
 export interface IColorOptions {
-  [Level.debug]: typeof Color
-  [Level.error]: typeof Color
-  [Level.info]: typeof Color
-  [Level.success]: typeof Color
-  [Level.warn]: typeof Color
+  [Level.debug]: ColorName
+  [Level.error]: ColorName
+  [Level.info]: ColorName
+  [Level.success]: ColorName
+  [Level.warn]: ColorName
 }
 
 /**
@@ -16,9 +16,9 @@ export interface IColorOptions {
  * default colors, see the exported `DefaultColors` object.
  */
 export interface IColorOptionsInput {
-  [Level.debug]?: string | typeof Color
-  [Level.error]?: string | typeof Color
-  [Level.info]?: string | typeof Color
-  [Level.success]?: string | typeof Color
-  [Level.warn]?: string | typeof Color
+  [Level.debug]?: string | ColorName
+  [Level.error]?: string | ColorName
+  [Level.info]?: string | ColorName
+  [Level.success]?: string | ColorName
+  [Level.warn]?: string | ColorName
 }
