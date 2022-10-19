@@ -1,24 +1,10 @@
-/*
- * —————————————————————————————————————————————————————————————————————————————
- * Project Name			— Logger
- * Project Version	— 1.8.2
- * Project Desc.		— An API for easily generating a new project or individual components.
- * Author						— Devin W. Leaman (4lch4)
- * Company					— 4lch4 Industries, LLC.
- * —————————————————————————————————————————————————————————————————————————————
- * File Path				— /src/index.ts
- * File Created			— 2021-10-07 @ 13:12:22-05:00
- * Last Modified		— 2022-06-17 @ 01:35:45-05:00
- * Modified By			— Devin W. Leaman (4lch4) (hey@4lch4.email)
- * —————————————————————————————————————————————————————————————————————————————
- * MIT License ⸺ http://www.opensource.org/licenses/MIT
- *
- * Copyright (c) 2022, Devin W. Leaman (4lch4) (hey@4lch4.email)
- * —————————————————————————————————————————————————————————————————————————————
- */
-
-import { ILoggerOpts, Level } from './interfaces/index.js'
-import { DefaultColors, DefaultLogFormat, Formatter } from './lib/index.js'
+import { IInspectOptions, ILoggerOpts, Level } from './interfaces/index.js'
+import {
+  DefaultColors,
+  DefaultLogFormat,
+  DefaultLoggerOpts,
+  Formatter
+} from './lib/index.js'
 
 /**
  * This class is the main/only class of the library. It contains the various
@@ -34,6 +20,13 @@ import { DefaultColors, DefaultLogFormat, Formatter } from './lib/index.js'
 export class Logger {
   private formatter: Formatter
 
+  /**
+   * The sole constructor available for the `Logger` class. It takes an optional
+   * `ILoggerOpts` object which can be used to modify the output of the logger.
+   * If no options are provided, the default options are used.
+   *
+   * @param loggerOpts An optional object containing the options for the logger.
+   */
   constructor(loggerOpts?: ILoggerOpts) {
     let colorOpts = DefaultColors
     let formatOpt = DefaultLogFormat
@@ -152,6 +145,7 @@ export class Logger {
     if (optionalParams.length > 0) console.log(msgOut, optionalParams)
     else console.log(msgOut)
   }
+
 }
 
 /**
