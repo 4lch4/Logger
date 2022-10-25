@@ -338,6 +338,15 @@ export class Logger {
   trace(message?: any, ...optionalParams: any[]): void {
     return console.trace(message, optionalParams)
   }
+  /**
+   * Prints a divider (made up of hyphens by default) to `stdout` to visually
+   * separate sections of output.
+   *
+   * @param length The length (amount of characters used) of the divider.
+   */
+  divider(length: number = DEFAULT_COLUMN_WIDTH, char: string = '-'): void {
+    return console.log(char.repeat(length))
+  }
 }
 
 /**
