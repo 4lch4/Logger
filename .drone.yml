@@ -38,7 +38,7 @@ kind: pipeline
 name: Publish
 
 depends_on:
-  - "Build"
+  - 'Build'
 
 trigger:
   event:

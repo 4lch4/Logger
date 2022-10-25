@@ -29,3 +29,6 @@ export const DEFAULT_LOGGER_OPTIONS = {
   /** The default format to use for logging. */
   format: DEFAULT_LOG_FORMAT
 }
+
+/** The default number of hyphens to use when printing a divider. */
+export const DEFAULT_COLUMN_WIDTH = 25
