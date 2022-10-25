@@ -93,28 +93,17 @@ export class Logger {
   error(msg: string | Error | unknown, ...optionalParams: any[]): void {
     if (msg instanceof Error) {
       if (optionalParams.length > 0) {
-        console.error(
-          this.formatter.formatMsg(msg.message, Level.error),
-          optionalParams
-        )
+        console.error(this.formatter.formatMsg(msg.message, Level.error), optionalParams)
       } else console.error(this.formatter.formatMsg(msg.message, Level.error))
     } else if (typeof msg === 'string') {
       if (optionalParams.length > 0) {
-        console.error(
-          this.formatter.formatMsg(msg, Level.error),
-          optionalParams
-        )
+        console.error(this.formatter.formatMsg(msg, Level.error), optionalParams)
       } else console.error(this.formatter.formatMsg(msg, Level.error))
     } else {
       if (optionalParams.length > 0) {
-        console.error(
-          this.formatter.formatMsg(JSON.stringify(msg), Level.error),
-          optionalParams
-        )
+        console.error(this.formatter.formatMsg(JSON.stringify(msg), Level.error), optionalParams)
       } else {
-        console.error(
-          this.formatter.formatMsg(JSON.stringify(msg), Level.error)
-        )
+        console.error(this.formatter.formatMsg(JSON.stringify(msg), Level.error))
       }
     }
   }
@@ -338,6 +327,7 @@ export class Logger {
   trace(message?: any, ...optionalParams: any[]): void {
     return console.trace(message, optionalParams)
   }
+
   /**
    * Prints a divider (made up of hyphens by default) to `stdout` to visually
    * separate sections of output.
@@ -355,4 +345,5 @@ export class Logger {
  * the {@link DEFAULT_LOGGER_OPTIONS} object.
  */
 export const logger = new Logger(DEFAULT_LOGGER_OPTIONS)
+
 export default Logger
