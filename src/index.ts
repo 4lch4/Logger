@@ -1,4 +1,4 @@
-import { IInspectOptions, ILoggerOpts, Level } from './interfaces/index.js'
+import { IInspectOptions, ILoggerOptions, Level } from './interfaces/index.js'
 import {
   DEFAULT_COLORS,
   DEFAULT_COLUMN_WIDTH,
@@ -6,6 +6,7 @@ import {
   DEFAULT_LOG_FORMAT,
   Formatter
 } from './lib/index.js'
+import LogDNA from '@logdna/logger'
 
 /**
  * This class is the main/only class of the library. It contains the various
@@ -20,22 +21,38 @@ import {
  */
 export class Logger {
   private formatter: Formatter
+  private dnaLogger?: LogDNA.Logger
 
   /**
    * The sole constructor available for the `Logger` class. It takes an optional
    * `ILoggerOpts` object which can be used to modify the output of the logger.
    * If no options are provided, the default options are used.
    *
-   * @param loggerOpts An optional object containing the options for the logger.
+   * @param opts An optional object containing the options for the logger.
    */
-  constructor(loggerOpts?: ILoggerOpts) {
+  constructor(opts?: ILoggerOptions) {
     let colorOpts = DEFAULT_COLORS
     let formatOpt = DEFAULT_LOG_FORMAT
 
-    if (loggerOpts?.format) formatOpt = loggerOpts.format
-    if (loggerOpts?.colorOpts) colorOpts = loggerOpts.colorOpts
+    if (opts?.format) formatOpt = opts.format
+    if (opts?.colorOpts) colorOpts = opts.colorOpts
 
     this.formatter = new Formatter(formatOpt, colorOpts)
+    if (opts?.logDNAKey) this.dnaLogger = LogDNA.setupDefaultLogger(opts?.logDNAKey, {})
+  }
+
+  private _log(msg: string | Object, level: Level, ...optionalParams: any[]): void {
+    const msgOut = this.formatter.formatMsg(msg, level)
+
+    this.dnaLogger?.log(msgOut, { level, meta: optionalParams })
+    if (typeof msg === 'string') {
+      console.log(msgOut, optionalParams.length > 0 ? optionalParams : undefined)
+    } else {
+      console.log(
+        JSON.stringify(msgOut, null, 2),
+        optionalParams.length > 0 ? optionalParams : undefined
+      )
+    }
   }
 
   /**
@@ -45,9 +62,7 @@ export class Logger {
    * @param optionalParams Any extra parameters to pass to the console module.
    */
   info(msg: string | Object, ...optionalParams: any[]): void {
-    if (optionalParams.length > 0) {
-      console.log(this.formatter.formatMsg(msg, Level.info), optionalParams)
-    } else console.log(this.formatter.formatMsg(msg, Level.info))
+    this._log(msg, Level.info, optionalParams)
   }
 
   /**
@@ -58,9 +73,7 @@ export class Logger {
    * @param optionalParams Any extra parameters to pass to the console module.
    */
   warn(msg: string | Object, ...optionalParams: any[]): void {
-    if (optionalParams.length > 0) {
-      console.warn(this.formatter.formatMsg(msg, Level.warn), optionalParams)
-    } else console.warn(this.formatter.formatMsg(msg, Level.warn))
+    this._log(msg, Level.warn, optionalParams)
   }
 
   /**
@@ -72,9 +85,7 @@ export class Logger {
    */
   debug(msg: string | Object, ...optionalParams: any[]): void {
     if (process.env.DEBUG) {
-      if (optionalParams.length > 0) {
-        console.log(this.formatter.formatMsg(msg, Level.debug), optionalParams)
-      } else console.log(this.formatter.formatMsg(msg, Level.debug))
+      this._log(msg, Level.debug, ...optionalParams)
     }
   }
 
@@ -116,10 +127,7 @@ export class Logger {
    * @param optionalParams Any extra parameters to pass to the console module.
    */
   success(msg: string, ...optionalParams: any[]): void {
-    const msgOut = this.formatter.formatMsg(msg, Level.success)
-
-    if (optionalParams.length > 0) console.log(msgOut, optionalParams)
-    else console.log(msgOut)
+    this._log(msg, Level.success, optionalParams)
   }
 
   /**
@@ -130,10 +138,7 @@ export class Logger {
    * @param optionalParams Any extra parameters to pass to the console module.
    */
   log(msg: string, level: any, ...optionalParams: any[]): void {
-    const msgOut = this.formatter.formatMsg(msg, level)
-
-    if (optionalParams.length > 0) console.log(msgOut, optionalParams)
-    else console.log(msgOut)
+    this._log(msg, level, optionalParams)
   }
 
   /** A convenience method for clearing the console. */
