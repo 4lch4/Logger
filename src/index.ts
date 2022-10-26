@@ -1,3 +1,4 @@
+import LogDNA from '@logdna/logger'
 import { IInspectOptions, ILoggerOptions, Level } from './interfaces/index.js'
 import {
   DEFAULT_COLORS,
@@ -6,7 +7,6 @@ import {
   DEFAULT_LOG_FORMAT,
   Formatter
 } from './lib/index.js'
-import LogDNA from '@logdna/logger'
 
 /**
  * This class is the main/only class of the library. It contains the various

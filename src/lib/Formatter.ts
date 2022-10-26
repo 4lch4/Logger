@@ -11,9 +11,6 @@ import { DEFAULT_DAYJS_FORMATS } from './index.js'
  * @class Formatter
  */
 export class Formatter {
-  format: LogFormat
-  colors: IColorOptions
-
   /**
    * The constructor for the Formatter class. Both parameters are required for
    * the class to function. The `format` parameter is the format to use for
@@ -23,10 +20,7 @@ export class Formatter {
    * @param format The format to use for logging messages.
    * @param colors An object that defines the colors to use for each level.
    */
-  constructor(format: LogFormat, colors: IColorOptions) {
-    this.colors = colors
-    this.format = format
-
+  constructor(private format: LogFormat, private colors: IColorOptions) {
     dayjs.extend(AdvancedFormats)
   }
 
