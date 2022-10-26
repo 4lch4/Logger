@@ -1,7 +1,7 @@
 {
   "name": "@4lch4/logger",
   "displayName": "Logger",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "description": "A small utility for logging to console within NodeJS/TypeScript applications.",
   "main": "./dist/index.js",
   "exports": "./dist/index.js",
@@ -12,7 +12,13 @@
     "pretty:commit": "prettier --write . && git add . && git commit -m 'ci(pretty): project prettied'",
     "test": "nyc --reporter=lcov mocha --reporter spec --require ts-node/register ts tests/*.test.ts"
   },
-  "keywords": ["util", "logger", "log", "logging", "stdout"],
+  "keywords": [
+    "util",
+    "logger",
+    "log",
+    "logging",
+    "stdout"
+  ],
   "engines": {
     "node": ">=16"
   },
