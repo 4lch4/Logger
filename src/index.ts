@@ -1,11 +1,11 @@
 import LogDNA from '@logdna/logger'
-import { IInspectOptions, ILoggerOptions, Level } from './interfaces/index.js'
+import { IInspectOptions, ILoggerOptions, LogLevel } from './interfaces/index.js'
 import {
   DEFAULT_COLORS,
   DEFAULT_COLUMN_WIDTH,
   DEFAULT_LOGGER_OPTIONS,
   DEFAULT_LOG_FORMAT,
-  Formatter
+  FormatUtil,
 } from './lib/index.js'
 
 /**
@@ -20,7 +20,7 @@ import {
  * @class Logger
  */
 export class Logger {
-  private formatter: Formatter
+  private formatter: FormatUtil
   private dnaLogger?: LogDNA.Logger
 
   /**
