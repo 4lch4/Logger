@@ -27,13 +27,13 @@
     "email": "hey@4lch4.email"
   },
   "bugs": {
-    "email": "bugs@4lch4.dev",
-    "url": "https://git.4lch4.io/4lch4/Logger/issues"
+    "email": "bugs@4lch4.email",
+    "url": "https://github.com/4lch4/Logger/issues"
   },
-  "homepage": "https://git.4lch4.io/4lch4/Logger",
+  "homepage": "https://github.com/4lch4/Logger",
   "repository": {
     "type": "git",
-    "url": "https://git.4lch4.io/4lch4/Logger"
+    "url": "https://github.com/4lch4/Logger"
   },
   "publishConfig": {
     "access": "public"
