@@ -1,0 +1,9 @@
+version: 3
+
+tasks:
+  pretty:
+    aliases: [p, format, fmt]
+    silent: false
+    desc: Uses the Prettier CLI tool to format the codebase.
+    cmds: ['prettier --write .']
+
