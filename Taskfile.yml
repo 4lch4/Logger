@@ -4,6 +4,17 @@ tasks:
   pretty:
     aliases: [p, format, fmt]
     silent: false
-    desc: Uses the Prettier CLI tool to format the codebase.
+    desc: Uses the Prettier CLI tool to format/clean-up the codebase.
     cmds: ['prettier --write .']
+
+  build:
+    desc: Transpile/build the codebase to JavaScript.
+    cmds: ['tsc']
+
+  test:
+    desc: Execute some tests to check the quality/health of the codebase.
+    cmds:
+      - echo "There are currently no tests available."
+      - npm test
+
 
