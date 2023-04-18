@@ -39,6 +39,7 @@
   },
   "homepage": "https://github.com/4lch4/Logger",
   "dependencies": {
+    "@logdna/logger": "^2.6.6",
     "chalk": "^5.2.0",
     "dayjs": "^1.11.7"
   },
