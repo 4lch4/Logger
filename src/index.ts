@@ -35,16 +35,23 @@ export class Logger {
     let formatOpt = DEFAULT_LOG_FORMAT
 
     if (opts?.format) formatOpt = opts.format
-    if (opts?.colorOpts) colorOpts = opts.colorOpts
+    if (opts?.colorOptions) colorOpts = opts.colorOptions
 
-    this.formatter = new Formatter(formatOpt, colorOpts)
-    if (opts?.logDNAKey) this.dnaLogger = LogDNA.setupDefaultLogger(opts?.logDNAKey, {})
+    this.formatter = new FormatUtil(formatOpt, colorOpts)
+    if (opts?.mezmoKey) this.dnaLogger = LogDNA.setupDefaultLogger(opts?.mezmoKey, {})
   }
 
-  private _log(msg: string | Object, level: Level, ...optionalParams: any[]): void {
+  /**
+   * The internal logging function that is called by all the public functions.
+   *
+   * @param msg The message to log.
+   * @param level The log level to send the message to.
+   * @param optionalParams Any additional parameters to log.
+   */
+  private _log(msg: string | Object, level: LogLevel, ...optionalParams: any[]): void {
     const msgOut = this.formatter.formatMsg(msg, level)
 
-    this.dnaLogger?.log(msgOut, { level, meta: optionalParams })
+    this.dnaLogger?.log(msgOut, { level: level, meta: optionalParams })
     if (typeof msg === 'string') {
       console.log(msgOut, optionalParams.length > 0 ? optionalParams : undefined)
     } else {
@@ -62,7 +69,9 @@ export class Logger {
    * @param optionalParams Any extra parameters to pass to the console module.
    */
   public info(msg: string | Object, ...optionalParams: any[]): void {
-    this._log(msg, Level.info, optionalParams)
+    console.log(`import.meta.url = ${import.meta.url}`)
+
+    this._log(msg, LogLevel.info, optionalParams)
   }
 
   /**
@@ -73,7 +82,7 @@ export class Logger {
    * @param optionalParams Any extra parameters to pass to the console module.
    */
   public warn(msg: string | Object, ...optionalParams: any[]): void {
-    this._log(msg, Level.warn, optionalParams)
+    this._log(msg, LogLevel.warn, optionalParams)
   }
 
   /**
@@ -85,7 +94,7 @@ export class Logger {
    */
   public debug(msg: string | Object, ...optionalParams: any[]): void {
     if (process.env.DEBUG) {
-      this._log(msg, Level.debug, ...optionalParams)
+      this._log(msg, LogLevel.debug, ...optionalParams)
     }
   }
 
@@ -104,17 +113,17 @@ export class Logger {
   public error(msg: string | Error | unknown, ...optionalParams: any[]): void {
     if (msg instanceof Error) {
       if (optionalParams.length > 0) {
-        console.error(this.formatter.formatMsg(msg.message, Level.error), optionalParams)
-      } else console.error(this.formatter.formatMsg(msg.message, Level.error))
+        console.error(this.formatter.formatMsg(msg.message, LogLevel.error), optionalParams)
+      } else console.error(this.formatter.formatMsg(msg.message, LogLevel.error))
     } else if (typeof msg === 'string') {
       if (optionalParams.length > 0) {
-        console.error(this.formatter.formatMsg(msg, Level.error), optionalParams)
-      } else console.error(this.formatter.formatMsg(msg, Level.error))
+        console.error(this.formatter.formatMsg(msg, LogLevel.error), optionalParams)
+      } else console.error(this.formatter.formatMsg(msg, LogLevel.error))
     } else {
       if (optionalParams.length > 0) {
-        console.error(this.formatter.formatMsg(JSON.stringify(msg), Level.error), optionalParams)
+        console.error(this.formatter.formatMsg(JSON.stringify(msg), LogLevel.error), optionalParams)
       } else {
-        console.error(this.formatter.formatMsg(JSON.stringify(msg), Level.error))
+        console.error(this.formatter.formatMsg(JSON.stringify(msg), LogLevel.error))
       }
     }
   }
