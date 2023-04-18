@@ -40,7 +40,7 @@
     "access": "public"
   },
   "types": "dist/index.d.ts",
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "dependencies": {
     "chalk": "^5.1.2",
     "dayjs": "^1.11.5",
