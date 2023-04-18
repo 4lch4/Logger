@@ -14,10 +14,9 @@
     "removeComments": false,                          /* Do not emit comments to output. */
     //#endregion Basic Options
 
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "paths": {
       "@interfaces/*": ["interfaces/*"],
-      "@ioptions/*": ["interfaces/options/*"],
       "@lib/*": ["lib/*"],
       "@constants/*": ["lib/constants/*"],
       "@defaults/*": ["lib/constants/defaults/*"],
