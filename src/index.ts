@@ -30,7 +30,7 @@ export class Logger {
    *
    * @param opts An optional object containing the options for the logger.
    */
-  constructor(opts?: ILoggerOptions) {
+  public constructor(opts?: ILoggerOptions) {
     let colorOpts = DEFAULT_COLORS
     let formatOpt = DEFAULT_LOG_FORMAT
 
@@ -61,7 +61,7 @@ export class Logger {
    * @param msg The content to write to `stdout`.
    * @param optionalParams Any extra parameters to pass to the console module.
    */
-  info(msg: string | Object, ...optionalParams: any[]): void {
+  public info(msg: string | Object, ...optionalParams: any[]): void {
     this._log(msg, Level.info, optionalParams)
   }
 
@@ -72,7 +72,7 @@ export class Logger {
    * @param msg The content to write to `stdout`.
    * @param optionalParams Any extra parameters to pass to the console module.
    */
-  warn(msg: string | Object, ...optionalParams: any[]): void {
+  public warn(msg: string | Object, ...optionalParams: any[]): void {
     this._log(msg, Level.warn, optionalParams)
   }
 
@@ -83,7 +83,7 @@ export class Logger {
    * @param msg The string/object to write to the debug channel of the console
    * @param optionalParams Any extra parameters to pass to the console module.
    */
-  debug(msg: string | Object, ...optionalParams: any[]): void {
+  public debug(msg: string | Object, ...optionalParams: any[]): void {
     if (process.env.DEBUG) {
       this._log(msg, Level.debug, ...optionalParams)
     }
@@ -101,7 +101,7 @@ export class Logger {
    * @param msg The content to write to `stderr`.
    * @param optionalParams Any extra parameters to pass to the console module.
    */
-  error(msg: string | Error | unknown, ...optionalParams: any[]): void {
+  public error(msg: string | Error | unknown, ...optionalParams: any[]): void {
     if (msg instanceof Error) {
       if (optionalParams.length > 0) {
         console.error(this.formatter.formatMsg(msg.message, Level.error), optionalParams)
@@ -126,8 +126,8 @@ export class Logger {
    * @param msg The content to write to `stdout`.
    * @param optionalParams Any extra parameters to pass to the console module.
    */
-  success(msg: string, ...optionalParams: any[]): void {
-    this._log(msg, Level.success, optionalParams)
+  public success(msg: string, ...optionalParams: any[]): void {
+    this._log(msg, LogLevel.success, optionalParams)
   }
 
   /**
@@ -137,12 +137,12 @@ export class Logger {
    * @param level The level of the message, such as DEBUG, INFO, WARN, ERROR, or SUCCESS.
    * @param optionalParams Any extra parameters to pass to the console module.
    */
-  log(msg: string, level: any, ...optionalParams: any[]): void {
+  public log(msg: string, level: any, ...optionalParams: any[]): void {
     this._log(msg, level, optionalParams)
   }
 
   /** A convenience method for clearing the console. */
-  clear(): void {
+  public clear(): void {
     console.clear()
   }
 
@@ -173,7 +173,7 @@ export class Logger {
    * default: 3
    * undefined
    */
-  count(label?: string): void {
+  public count(label?: string): void {
     return console.count(label)
   }
 
@@ -192,7 +192,7 @@ export class Logger {
    * abc: 1
    * undefined
    */
-  countReset(label?: string): void {
+  public countReset(label?: string): void {
     return console.countReset(label)
   }
 
@@ -230,7 +230,7 @@ export class Logger {
    * // │    1    │ 'Z' │
    * // └─────────┴─────┘
    */
-  table(tabularData: any[], properties?: string[]): void {
+  public table(tabularData: any[], properties?: string[]): void {
     return console.table(tabularData, properties)
   }
 
@@ -241,7 +241,7 @@ export class Logger {
    * @param object The object to inspect and output to `stdout`.
    * @param options An optional object that contains options to be passed to `util.inspect`.
    */
-  dir(object: any, options?: IInspectOptions): void {
+  public dir(object: any, options?: IInspectOptions): void {
     return console.dir(object, options)
   }
 
@@ -254,7 +254,7 @@ export class Logger {
    *
    * @param label The label(s) to use for the grouping.
    */
-  group(...label: any[]): void {
+  public group(...label: any[]): void {
     return console.group(...label)
   }
 
@@ -262,7 +262,7 @@ export class Logger {
    * Decreases indentation of subsequent lines by spaces for
    * `groupIndentationlength`.
    */
-  groupEnd(): void {
+  public groupEnd(): void {
     return console.groupEnd()
   }
 
@@ -273,7 +273,7 @@ export class Logger {
    * time units to `stdout`. For example, if the elapsed time is 3869ms,
    * `logger.timeEnd()` displays "3.869s".
    */
-  time(label?: string | undefined): void {
+  public time(label?: string | undefined): void {
     return console.time(label)
   }
 
@@ -289,7 +289,7 @@ export class Logger {
    * // prints 100-elements: 225.438ms
    * ```
    */
-  timeEnd(label?: string | undefined): void {
+  public timeEnd(label?: string | undefined): void {
     return console.timeEnd(label)
   }
 
@@ -306,7 +306,7 @@ export class Logger {
    * doExpensiveProcess2(value);
    * console.timeEnd('process');
    */
-  timeLog(label?: string | undefined, ...data: any[]): void {
+  public timeLog(label?: string | undefined, ...data: any[]): void {
     return console.timeLog(label, data)
   }
 
@@ -329,7 +329,7 @@ export class Logger {
    * //    at REPLServer.Interface._line (readline.js:549:8)
    * //    at REPLServer.Interface._ttyWrite (readline.js:826:14)
    */
-  trace(message?: any, ...optionalParams: any[]): void {
+  public trace(message?: any, ...optionalParams: any[]): void {
     return console.trace(message, optionalParams)
   }
 
@@ -339,7 +339,7 @@ export class Logger {
    *
    * @param length The length (amount of characters used) of the divider.
    */
-  divider(length: number = DEFAULT_COLUMN_WIDTH, char: string = '-'): void {
+  public divider(length: number = DEFAULT_COLUMN_WIDTH, char: string = '-'): void {
     return console.log(char.repeat(length))
   }
 }
