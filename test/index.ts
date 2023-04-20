@@ -1,7 +1,8 @@
-import { logger } from '../src/index.js'
+import { logger } from '../dist/index.js'
 
 async function main() {
   try {
+    //#region Logger Methods
     logger.info('[logger]: Testing basic logger export...')
     logger.info('[logger]: logger.info...')
     logger.clear()
@@ -21,6 +22,29 @@ async function main() {
     logger.timeLog('')
     logger.trace('')
     logger.warn('')
+    //#endregion Logger Methods
+
+    //#region Console Methods
+    console.assert('')
+    console.clear()
+    console.count('')
+    console.countReset('')
+    console.debug('')
+    console.dir('')
+    console.dirxml('')
+    console.error('')
+    console.group('')
+    console.groupCollapsed('')
+    console.groupEnd()
+    console.info('')
+    console.log('')
+    console.table('')
+    console.time('')
+    console.timeEnd('')
+    console.timeLog('')
+    console.trace('')
+    console.warn('')
+    //#endregion Console Methods
   } catch (error) {
     throw error
   }
