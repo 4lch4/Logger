@@ -1,6 +1,6 @@
 import Mezmo from '@logdna/logger'
 import OS from 'os'
-import { DEFAULT_MEZMO_TAGS } from '@lib/index.js'
+import { DEFAULT_MEZMO_TAGS } from './DefaultMezmoTags.js'
 
 /**
  * An object containing the default options to use when instantiating the
@@ -8,8 +8,6 @@ import { DEFAULT_MEZMO_TAGS } from '@lib/index.js'
  * options.
  */
 export const DEFAULT_MEZMO_OPTIONS: Mezmo.ConstructorOptions = {
-  app: module.id,
-
   /** The hostname of the device sending the log message. */
   hostname: OS.hostname(),
 
