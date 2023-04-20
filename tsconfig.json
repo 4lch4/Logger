@@ -18,6 +18,7 @@
     "paths": {
       "@interfaces/*": ["interfaces/*"],
       "@lib/*": ["lib/*"],
+      "@bases/*": ["lib/bases/*"],
       "@constants/*": ["lib/constants/*"],
       "@defaults/*": ["lib/constants/defaults/*"],
       "@utils/*": ["lib/utils/*"]
