@@ -20,6 +20,7 @@
       "@lib/*": ["lib/*"],
       "@bases/*": ["lib/bases/*"],
       "@constants/*": ["lib/constants/*"],
+      "@transports/*": ["lib/transports/*"],
       "@defaults/*": ["lib/constants/defaults/*"],
       "@utils/*": ["lib/utils/*"]
     },
