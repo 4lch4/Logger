@@ -9,6 +9,6 @@ This document is my 2nd attempt at creating a "highlights" of all there is in th
 
 ## Styles
 
-- 
+-
 
 ## Colors

@@ -2,15 +2,14 @@ import chalk from 'chalk'
 import dayjs from 'dayjs'
 import AdvancedFormats from 'dayjs/plugin/advancedFormat.js'
 import os from 'os'
-import { IColorOptions, Level, ELogFormat } from '../../interfaces/index.js'
-import { DEFAULT_DAYJS_FORMATS } from '../index.js'
+import { IColorOptions, LogLevel, OutputFormat } from '@interfaces/index.js'
+import { DateUtil } from './DateUtil.js'
 
-/**
- * A utility class used for formatting messages.
- *
- * @class Formatter
- */
+/** A utility class used for formatting messages. */
 export class FormatUtil {
+  /** An instance of the {@link DateUtil} class for managing date/time strings. */
+  private dUtil: DateUtil = new DateUtil()
+
   /**
    * The constructor for the Formatter class. Both parameters are required for
    * the class to function. The `format` parameter is the format to use for
@@ -20,7 +19,7 @@ export class FormatUtil {
    * @param format The format to use for logging messages.
    * @param colors An object that defines the colors to use for each level.
    */
-  constructor(private format: ELogFormat, private colors: IColorOptions) {
+  constructor(private format: OutputFormat, private colors: IColorOptions) {
     dayjs.extend(AdvancedFormats)
   }
 
@@ -31,7 +30,7 @@ export class FormatUtil {
    * @param level The level of the message.
    * @returns The given message colored for the given level.
    */
-  colorMsg(msg: string, level: Level) {
+  colorMsg(msg: string, level: LogLevel) {
     return chalk[this.colors[level]](msg)
   }
 
@@ -48,36 +47,26 @@ export class FormatUtil {
    * @param level The level of the message.
    * @returns A formatted message to be logged.
    */
-  formatMsg(msg: string | Object, level: Level) {
+  formatMsg(msg: string | Object, level: LogLevel) {
     if (this.format === 'json') {
       const logOutput = {
         /** The timestamp for when the message was sent. */
-        time: this.getUTCTime(),
+        time: this.dUtil.getUTCTime(),
         host: os.hostname(),
         pid: process.pid,
         level,
-        msg: this.stringifyMsg(msg)
+        msg: this.stringifyMsg(msg),
       }
 
       return this.colorMsg(JSON.stringify(logOutput), level)
     } else {
       const output = [
-        `[${this.getPrettyTime()}]`,
+        `[${this.dUtil.getPrettyTime()}]`,
         `[${level.toUpperCase()}]`,
-        this.stringifyMsg(msg)
+        this.stringifyMsg(msg),
       ]
 
       return this.colorMsg(output.join(' - '), level)
     }
-  }
-
-  /** Returns the time as UTC Milliseconds. */
-  getUTCTime() {
-    return dayjs().format(DEFAULT_DAYJS_FORMATS.utcMillisecondsFormat)
-  }
-
-  /** Returns the current time using a pretty format: `YYYY.MM.DD-HH:mm:ss` */
-  getPrettyTime() {
-    return dayjs().format(DEFAULT_DAYJS_FORMATS.prettyFormat)
   }
 }

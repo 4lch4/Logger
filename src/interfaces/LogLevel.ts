@@ -4,5 +4,5 @@ export enum LogLevel {
   warn = 'warn',
   debug = 'debug',
   error = 'error',
-  success = 'success'
+  success = 'success',
 }

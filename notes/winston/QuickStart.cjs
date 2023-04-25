@@ -4,7 +4,7 @@ const logger = createLogger({
   level: 'info',
   format: format.combine(
     format.timestamp({
-      format: 'YYYY-MM-DD HH:mm:ss'
+      format: 'YYYY-MM-DD HH:mm:ss',
     }),
     format.errors({ stack: true }),
     format.splat(),
@@ -17,8 +17,8 @@ const logger = createLogger({
     // - Write all logs error (and below) to `quick-start-error.log`.
     //
     new transports.File({ filename: 'quick-start-error.log', level: 'error' }),
-    new transports.File({ filename: 'quick-start-combined.log' })
-  ]
+    new transports.File({ filename: 'quick-start-combined.log' }),
+  ],
 })
 
 //
@@ -28,7 +28,7 @@ const logger = createLogger({
 if (process.env.NODE_ENV !== 'production') {
   logger.add(
     new transports.Console({
-      format: format.combine(format.colorize(), format.simple())
+      format: format.combine(format.colorize(), format.simple()),
     })
   )
 }
@@ -41,13 +41,13 @@ logger.log({
   level: 'info',
   message: 'Pass an object and this works',
   additional: 'properties',
-  are: 'passed along'
+  are: 'passed along',
 })
 
 logger.info({
   message: 'Use a helper method if you want',
   additional: 'properties',
-  are: 'passed along'
+  are: 'passed along',
 })
 
 // ***************
@@ -56,12 +56,12 @@ logger.info({
 
 logger.log('info', 'Pass a message and this works', {
   additional: 'properties',
-  are: 'passed along'
+  are: 'passed along',
 })
 
 logger.info('Use a helper method if you want', {
   additional: 'properties',
-  are: 'passed along'
+  are: 'passed along',
 })
 
 // ***************

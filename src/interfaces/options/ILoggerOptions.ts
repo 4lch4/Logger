@@ -1,4 +1,5 @@
-import { IOutputOptions, ITransportCollection } from '@interfaces/index.js'
+import { BaseTransport } from '@bases/index.js'
+import { IOutputOptions } from '@interfaces/index.js'
 
 /**
  * The options that are available when instantiating a new Logger class.
@@ -10,6 +11,9 @@ export interface ILoggerOptions {
   /** The ingestion key to use for sending logs to Mezmo/LogDNA. */
   mezmoKey?: string
 
-  /** An optional object containing the Transport related settings. */
-  transports?: ITransportCollection
+  /**
+   * An array of all the Transports for where log data should be sent. At least one must be provided
+   * for the library to work.
+   */
+  transports: BaseTransport[]
 }

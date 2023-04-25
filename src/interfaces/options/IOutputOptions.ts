@@ -1,5 +1,6 @@
 import { OutputFormat, IColorOptions } from '@interfaces/index.js'
 
+/** An object containing the settings/options related to how log data is output. */
 export interface IOutputOptions {
   /** The format to use when outputting data (`json` or `plaintext`). */
   format?: OutputFormat
