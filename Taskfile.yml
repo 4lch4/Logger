@@ -7,14 +7,29 @@ tasks:
     desc: Uses the Prettier CLI tool to format/clean-up the codebase.
     cmds: ['prettier --write .']
 
+  clean:
+    aliases: [c]
+    desc: Cleans up the directory of any lock files, built files, and dependencies, for a fresh slate.
+    cmds:
+      - rm -rf node_modules dist pnpm-lock.yaml
+
+  rebuild:
+    aliases: [r]
+    desc: Creates a clean/fresh slate, by using the clean task, and then builds the codebase with the build task.
+    cmds:
+      - task clean
+      - task build
+
   build:
-    desc: Transpile/build the codebase to JavaScript.
-    cmds: ['tsc']
+    aliases: [b]
+    desc: Transpile/build the codebase.
+    cmds:
+      - pnpm i
+      - pnpm build
 
   test:
+    aliases: [t]
     desc: Execute some tests to check the quality/health of the codebase.
     cmds:
       - echo "There are currently no tests available."
-      - npm test
-
-
+      - pnpm test
