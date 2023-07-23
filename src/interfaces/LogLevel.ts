@@ -3,5 +3,5 @@ export enum Level {
   warn = 'warn',
   debug = 'debug',
   error = 'error',
-  success = 'success'
+  success = 'success',
 }

@@ -1,4 +1,16 @@
-node_modules
+# Directories
 dist
 coverage
+node_modules
+.obsidian
 .github
+.vscode
+.trash
+.git
+.github
+
+# Files
+.env
+.gitignore
+pnpm-lock.yaml
+tsconfig.json

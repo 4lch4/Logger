@@ -1,51 +1,53 @@
-import { ILogger, ILoggerOpts, Level } from './interfaces'
-import { DefaultColors, DefaultLogFormat, Formatter } from './lib'
+import Winston from 'winston'
+import { LoggerConfig as DefaultLoggerConfig } from './Defaults.js'
+import { ILoggerConfig } from './interfaces/index.js'
 
-export class Logger implements ILogger {
-  private formatter: Formatter
+export class Logger {
+  private logger: Winston.Logger
 
-  constructor(loggerOpts?: ILoggerOpts) {
-    let colorOpts = DefaultColors
-    let formatOpt = DefaultLogFormat
-
-    if (loggerOpts?.format) formatOpt = loggerOpts.format
-    if (loggerOpts?.colorOpts) colorOpts = loggerOpts.colorOpts
-
-    this.formatter = new Formatter(formatOpt, colorOpts)
+  constructor(loggerConfig?: ILoggerConfig) {
+    this.logger = Winston.createLogger({ ...DefaultLoggerConfig, ...loggerConfig })
   }
 
-  info(msg: string | Object) {
-    console.log(this.formatter.formatMsg(msg, Level.info))
+  info(msg: string | Object, ...extra: any[]) {
+    if (typeof msg === 'object') this.logger.info(JSON.stringify(msg, null, 2), ...extra)
+    else this.logger.info(msg, ...extra)
   }
 
-  warn(msg: string | Object) {
-    console.log(this.formatter.formatMsg(msg, Level.warn))
+  warn(msg: string | Object, ...extra: any[]) {
+    if (typeof msg === 'object') this.logger.info(JSON.stringify(msg, null, 2), ...extra)
+    else this.logger.info(msg, ...extra)
   }
 
-  debug(msg: string | Object) {
-    console.log(this.formatter.formatMsg(msg, Level.debug))
+  debug(msg: string | Object, ...extra: any[]) {
+    if (typeof msg === 'object') this.logger.info(JSON.stringify(msg, null, 2), ...extra)
+    else this.logger.info(msg, ...extra)
   }
 
   error(msg: string | Error | unknown, ...extra: any[]) {
-    if (msg instanceof Error) {
-      console.log(this.formatter.formatMsg(msg.message, Level.error))
-    } else if (msg instanceof String) {
-      console.log(this.formatter.formatMsg(msg, Level.error))
-    } else {
-      console.log(this.formatter.formatMsg(msg as Object, Level.error))
-    }
+    switch (typeof msg) {
+      case 'object':
+        if (msg instanceof Error) this.logger.error(msg.message, [msg, ...extra])
+        else this.logger.error(JSON.stringify(msg, null, 2), ...extra)
+        break
 
-    if (extra.length > 0) {
-      console.log(this.formatter.formatMsg(extra.join('\n'), Level.error))
+      case 'string':
+        this.logger.error(msg, ...extra)
+        break
+
+      default:
+        this.logger.error(JSON.stringify(msg, null, 2), ...extra)
+        break
     }
   }
 
-  success(msg: string) {
-    console.log(this.formatter.formatMsg(msg, Level.success))
+  success(msg: string, ...extra: any[]) {
+    if (typeof msg === 'object') this.logger.info(JSON.stringify(msg, null, 2), ...extra)
+    else this.logger.info(msg, ...extra)
   }
 
-  log(msg: string, level: any) {
-    console.log(this.formatter.formatMsg(msg, level))
+  log(level: any, msg: string, ...extra: any[]) {
+    return this.logger.log(level, msg, ...extra)
   }
 }
 
