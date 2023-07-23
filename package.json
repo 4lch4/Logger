@@ -1,7 +1,7 @@
 {
   "name": "@4lch4/logger",
   "displayName": "Logger",
-  "version": "2.0.0-pre.0",
+  "version": "2.0.0-pre.1",
   "description": "A small utility for logging to console within NodeJS/TypeScript applications.",
   "main": "./dist/index.js",
   "exports": "./dist/index.js",
@@ -17,12 +17,22 @@
     "test": "echo 'There are currently no tests available.'",
     "scan": "snyk monitor && snyk code test"
   },
-  "files": ["dist"],
-  "engines": { "node": ">=16.0.0" },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "publishConfig": {
     "access": "public"
   },
-  "keywords": ["util", "logger", "log", "logging", "stdout"],
+  "keywords": [
+    "util",
+    "logger",
+    "log",
+    "logging",
+    "stdout"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com/4lch4/Logger.git"
