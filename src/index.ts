@@ -15,13 +15,13 @@ export class Logger {
   }
 
   warn(msg: string | Object, ...extra: any[]) {
-    if (typeof msg === 'object') this.logger.info(JSON.stringify(msg, null, 2), ...extra)
-    else this.logger.info(msg, ...extra)
+    if (typeof msg === 'object') this.logger.warn(JSON.stringify(msg, null, 2), ...extra)
+    else this.logger.warn(msg, ...extra)
   }
 
   debug(msg: string | Object, ...extra: any[]) {
-    if (typeof msg === 'object') this.logger.info(JSON.stringify(msg, null, 2), ...extra)
-    else this.logger.info(msg, ...extra)
+    if (typeof msg === 'object') this.logger.debug(JSON.stringify(msg, null, 2), ...extra)
+    else this.logger.debug(msg, ...extra)
   }
 
   error(msg: string | Error | unknown, ...extra: any[]) {
@@ -42,8 +42,8 @@ export class Logger {
   }
 
   success(msg: string, ...extra: any[]) {
-    if (typeof msg === 'object') this.logger.info(JSON.stringify(msg, null, 2), ...extra)
-    else this.logger.info(msg, ...extra)
+    if (typeof msg === 'object') this.logger.log('success', JSON.stringify(msg, null, 2), ...extra)
+    else this.logger.log('success', msg, ...extra)
   }
 
   log(level: any, msg: string, ...extra: any[]) {
