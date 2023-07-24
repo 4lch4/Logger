@@ -1,7 +1,7 @@
 {
   "name": "@4lch4/logger",
   "displayName": "Logger",
-  "version": "2.0.0-pre.6",
+  "version": "2.0.0-pre.7",
   "description": "A small utility for logging to console within NodeJS/TypeScript applications.",
   "main": "./dist/index.js",
   "exports": "./dist/index.js",
