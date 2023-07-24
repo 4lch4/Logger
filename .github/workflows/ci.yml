@@ -22,6 +22,7 @@ jobs:
           node-version: 'lts/*'
           registry-url: 'https://registry.npmjs.org'
           token: ${{ secrets.NPM_TOKEN }}
+          scope: '@4lch4'
 
       - name: Install Dependencies
         run: npm install
