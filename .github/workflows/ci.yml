@@ -16,11 +16,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Setup Node.js (lts/*)
+      - name: Setup Node.js (v16)
         uses: actions/setup-node@v2
         with:
-          node-version: 'lts/*'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: '16'
           token: ${{ secrets.NPM_TOKEN }}
           scope: '@4lch4'
 
