@@ -1,13 +1,30 @@
 {
   "name": "@4lch4/logger",
   "displayName": "Logger",
-  "version": "1.7.3",
+  "version": "2.0.0",
   "description": "A small utility for logging to console within NodeJS/TypeScript applications.",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://github.com/4lch4/Logger",
   "scripts": {
+    "start": "node dist/index.js",
     "build": "tsc",
-    "pretty": "prettier --write . && git add . && git commit -m 'ci(pretty): project prettied'",
-    "test": "mocha --reporter spec --require ts-node/register tests/*.test.ts"
+    "pretty": "prettier --write .",
+    "lint": "prettier -c .",
+    "test": "echo 'There are currently no tests available.'",
+    "scan": "snyk monitor && snyk code test"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "keywords": [
     "util",
@@ -16,40 +33,26 @@
     "logging",
     "stdout"
   ],
-  "author": {
-    "name": "4lch4",
-    "url": "https://4lch4.dev",
-    "email": "inbox@4lch4.dev"
-  },
-  "bugs": {
-    "email": "bugs@4lch4.dev",
-    "url": "https://github.com/4lch4/logger/issues"
-  },
-  "homepage": "https://github.com/4lch4/logger",
   "repository": {
     "type": "git",
-    "url": "https://github.com/4lch4/logger"
+    "url": "git@github.com/4lch4/Logger.git"
   },
-  "publishConfig": {
-    "access": "public"
+  "author": {
+    "name": "4lch4",
+    "email": "hey@4lch4.email",
+    "url": "https://4lch4.com"
   },
-  "types": "dist/index.d.ts",
-  "license": "ISC",
+  "bugs": {
+    "email": "bugs@4lch4.email",
+    "url": "https://github.com/4lch4/Logger/issues"
+  },
   "dependencies": {
-    "chalk": "^4.1.2",
-    "dayjs": "^1.10.7",
-    "fs-extra": "^10.0.0"
+    "@axiomhq/axiom-node": "^0.12.0",
+    "winston": "^3.10.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.22",
-    "@types/fs-extra": "^9.0.13",
-    "@types/mocha": "^9.0.0",
-    "@types/node": "^16.10.3",
-    "chai": "^4.3.4",
-    "mocha": "^9.1.2",
-    "np": "^7.5.0",
-    "prettier": "^2.4.1",
-    "ts-node": "^10.3.0",
-    "typescript": "^4.4.4"
+    "@types/node": "^20.4.4",
+    "prettier": "^3.0.0",
+    "typescript": "^5.1.6"
   }
 }

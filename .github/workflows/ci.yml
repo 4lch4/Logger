@@ -1,0 +1,35 @@
+name: Build & Publish npm package
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    name: Build & Publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js (v16)
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          token: ${{ secrets.NPM_TOKEN }}
+          scope: '@4lch4'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Package
+        run: npm run build
+
+      - name: Publish Package
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
