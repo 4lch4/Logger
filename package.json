@@ -47,12 +47,14 @@
     "url": "https://github.com/4lch4/Logger/issues"
   },
   "dependencies": {
-    "@axiomhq/axiom-node": "^0.12.0",
-    "winston": "^3.10.0"
+    "@axiomhq/winston": "1.0.0-rc.1",
+    "winston": "^3.11.0"
   },
   "devDependencies": {
-    "@types/node": "^20.4.4",
-    "prettier": "^3.0.0",
-    "typescript": "^5.1.6"
+    "@types/node": "^20.9.0",
+    "prettier": "^3.1.0",
+    "prettier-plugin-organize-imports": "^3.2.4",
+    "prettier-plugin-packagejson": "^2.4.6",
+    "typescript": "^5.2.2"
   }
 }
