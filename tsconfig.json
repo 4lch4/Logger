@@ -2,7 +2,6 @@
   "compilerOptions": {
     //#region Set Values
     //#region Basic Options
-    "incremental": true,                              /* Enable incremental compilation */
     "target": "ESNext",                               /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */
     "module": "Node16",                               /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
     "declaration": true,                              /* Generates corresponding '.d.ts' file. */
@@ -10,7 +9,6 @@
     "sourceMap": true,                                /* Generates corresponding '.map' file. */
     "outDir": "dist",                                 /* Redirect output structure to the directory. */
     "rootDir": "src",                                 /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
-    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",   /* Specify file to store incremental compilation information */
     "removeComments": false,                          /* Do not emit comments to output. */
     //#endregion Basic Options
 
@@ -28,6 +26,7 @@
 
     //#region Module Resolution Options
     "moduleResolution": "Node16",                     /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
+    "types": ["node"],                                /* Specify type declaration files to be included in compilation. */
     "resolveJsonModule": true,                        /* Enable resolving modules via '.json' files. */
     "esModuleInterop": true,                          /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
     //#endregion Module Resolution Options
