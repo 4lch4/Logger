@@ -4,38 +4,35 @@
   "version": "2.0.0",
   "description": "A small utility for logging to console within NodeJS/TypeScript applications.",
   "main": "./dist/index.js",
-  "exports": "./dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "types": "./dist/index.d.ts",
   "type": "module",
   "license": "MIT",
   "homepage": "https://github.com/4lch4/Logger",
   "scripts": {
-    "start": "node dist/index.js",
     "build": "tsc",
+    "pretest": "npm run build",
+    "test": "node --test",
     "pretty": "prettier --write .",
     "lint": "prettier -c .",
-    "test": "echo 'There are currently no tests available.'",
     "scan": "snyk monitor && snyk code test"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=22"
   },
   "publishConfig": {
     "access": "public"
   },
-  "keywords": [
-    "util",
-    "logger",
-    "log",
-    "logging",
-    "stdout"
-  ],
+  "keywords": ["util", "logger", "log", "logging", "stdout"],
   "repository": {
     "type": "git",
-    "url": "git@github.com/4lch4/Logger.git"
+    "url": "git+https://github.com/4lch4/Logger.git"
   },
   "author": {
     "name": "4lch4",
@@ -47,14 +44,14 @@
     "url": "https://github.com/4lch4/Logger/issues"
   },
   "dependencies": {
-    "@axiomhq/winston": "1.0.0-rc.1",
-    "winston": "^3.11.0"
+    "@axiomhq/winston": "^2.0.0",
+    "winston": "^3.19.0"
   },
   "devDependencies": {
-    "@types/node": "^20.9.0",
-    "prettier": "^3.1.0",
-    "prettier-plugin-organize-imports": "^3.2.4",
-    "prettier-plugin-packagejson": "^2.4.6",
-    "typescript": "^5.2.2"
+    "@types/node": "^24.19.2",
+    "prettier": "^3.9.10",
+    "prettier-plugin-organize-imports": "^4.3.0",
+    "prettier-plugin-packagejson": "^3.0.2",
+    "typescript": "^7.0.2"
   }
 }

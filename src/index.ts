@@ -1,6 +1,11 @@
 import { WinstonTransport } from '@axiomhq/winston'
-import { DEFAULT_LOG_HOSTNAME, DEFAULT_LOG_NODE_ENV, DEFAULT_LOG_SERVICE } from './Defaults.js'
-import { arch, platform } from 'os'
+import {
+  DEFAULT_LOG_HOSTNAME,
+  DEFAULT_LOG_LEVEL,
+  DEFAULT_LOG_NODE_ENV,
+  DEFAULT_LOG_SERVICE,
+} from './Defaults.js'
+import { arch, platform } from 'node:os'
 import Winston, {
   LeveledLogMethod,
   Logger as WinstonLogger,
@@ -23,11 +28,11 @@ export const ConsoleTransport = new WinstonTransports.Console({
  *
  * @param dataset The Axiom Dataset to log to.
  * @param token The Axiom Token to use for authentication.
- * @param orgId The Axiom Org ID to use for logging.
+ * @param orgId The Axiom Org ID to use. Only required when the token is a personal token.
  *
  * @returns A new Winston transport that logs to Axiom.
  */
-export function AxiomTransport(dataset: string, token: string, orgId: string) {
+export function AxiomTransport(dataset: string, token: string, orgId?: string) {
   return new WinstonTransport({ dataset, token, orgId })
 }
 
@@ -38,10 +43,17 @@ const AxiomDataSet = process.env.AXIOM_DATASET
 const AxiomOrgId = process.env.AXIOM_ORG_ID
 const AxiomToken = process.env.AXIOM_TOKEN
 
-// Ensure that we only log to Axiom if all required environment variables are set.
-if (AxiomDataSet && AxiomOrgId && AxiomToken) {
+// Ensure that we only log to Axiom if the required environment variables are set.
+if (AxiomDataSet && AxiomToken) {
   transports.push(AxiomTransport(AxiomDataSet, AxiomToken, AxiomOrgId))
 }
+
+/**
+ * The level to log at. `LOG_LEVEL` takes precedence, otherwise `info` is used in production and
+ * `debug` everywhere else.
+ */
+const logLevel =
+  process.env.LOG_LEVEL || (process.env.NODE_ENV === 'production' ? DEFAULT_LOG_LEVEL : 'debug')
 
 /**
  * An interface for the logger that extends the Winston logger and adds a `success` method.
@@ -66,7 +78,7 @@ export const logger: Logger = Winston.createLogger({
     arch: arch(),
     platform: platform(),
   },
-  level: process.env.LOG_LEVEL || process.env.NODE_ENV === 'production' ? 'info' : 'debug',
+  level: logLevel,
   levels: { ...Winston.config.npm.levels, success: -1 },
   transports,
 }) as Logger

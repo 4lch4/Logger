@@ -1,4 +1,5 @@
 {
+  "plugins": ["prettier-plugin-organize-imports", "prettier-plugin-packagejson"],
   "singleQuote": true,
   "arrowParens": "avoid",
   "semi": false,

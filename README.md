@@ -1,48 +1,61 @@
 # @4lch4/logger
 
-This module is a small utility module for logging to stdout and, if desired, to also log to files.
+A small Winston-based logger for Node.js that writes to the console and, optionally, to
+[Axiom](https://axiom.co).
+
+## Requirements
+
+Node.js >= 22.
 
 ## Installation
 
-The module is published to the NPM registry so you're able to install it as you would any other module:
-
 ```shell
-# Using NPM
-npm install --save @4lch4/logger
-
-# Using Yarn
-yarn add @4lch4/logger
-
-# Using PNPM
-pnpm install @4lch4/logger
+npm install @4lch4/logger
 ```
 
 ## Usage
 
-Using the logger is fairly straight forward. Import the Logger, create a new instance with some optional properties, then use that instance throughout your application:
-
-> **_NOTE: You can also create new instances throughout your app and it will log to the same files/locations._**
+The package exports a single, shared logger instance:
 
 ```typescript
-import { Logger } from '@4lch4/logger'
-const logger = new Logger({
-  // optional properties
-})
+import { logger } from '@4lch4/logger'
 
 logger.info('Hello, world!')
-logger.error('Uh oh, something broke...')
+logger.debug('Some extra detail')
+logger.warn('Something looks off')
+logger.error('Something broke')
+logger.success('It worked')
 ```
 
-## Logging Levels
+The logger always writes to the console and, when the Axiom environment variables are set, also
+sends entries to Axiom.
 
-It has 5 "levels" of logging with a color for each, which are as follows (in no particular order):
+## Log levels
 
-- debug - Cyan
-- error - Red
-- info - Gray
-- success - Green
-- warn - Yellow
+It uses the npm levels (`error`, `warn`, `info`, `http`, `verbose`, `debug`, `silly`) plus a
+custom `success` level. `success` has the highest priority, so it is always logged. Console
+colors: `success` is green, `info` is cyan, and the rest use Winston's defaults.
 
-If you provide a logDir when instantiating the Logger class, each level will have a file. For example, debug would be `2021.03.17-debug.log` whereas error would be `2021.03.17-error.log`.
+## Environment variables
 
-Each level has a function to be called for logging at that level. For example, if you want to write to the debug level, you'd do `logger.debug('Debug message')`.
+- `LOG_LEVEL` — level to log at. Takes precedence over `NODE_ENV`.
+- `NODE_ENV` — when `production`, the default level is `info`; otherwise it is `debug`.
+- `LOG_SERVICE`, `API_NAME`, `APP_NAME` — service name added to every entry, checked in that
+  order.
+- `HOSTNAME` — hostname added to every entry; defaults to `localhost`.
+- `AXIOM_DATASET`, `AXIOM_TOKEN` — when both are set, entries are also sent to Axiom.
+- `AXIOM_ORG_ID` — Axiom org ID; only needed when using a personal token.
+
+Every entry also includes `service`, `nodeEnv` (default `development`), `hostname`, `arch` and
+`platform` metadata.
+
+## Exports
+
+- `logger` — the shared logger instance.
+- `Logger` — the logger type, which adds `success` to Winston's `Logger`.
+- `ConsoleTransport` — the configured Winston console transport.
+- `AxiomTransport(dataset, token, orgId?)` — creates a Winston transport that logs to Axiom.
+
+## License
+
+MIT
