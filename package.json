@@ -32,7 +32,7 @@
   "keywords": ["util", "logger", "log", "logging", "stdout"],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/4lch4/Logger.git"
+    "url": "git@github.com/4lch4/Logger.git"
   },
   "author": {
     "name": "4lch4",
