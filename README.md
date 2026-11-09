@@ -71,8 +71,10 @@ lower, the `error` only becomes `exception.*` attributes.
 
 ## Attributes
 
-An attribute value is a string, number or boolean, or an array of those. Keys are dotted. A value
-of `undefined` is left out, and a nested object is a compile error.
+An attribute value is a string, number or boolean, or an array of those. Use OpenTelemetry's name
+for a key where one exists (`http.route`), and a dotted name of your own otherwise
+(`notification.source`). A value of `undefined` is left out, and a nested object is a compile
+error.
 
 `error` takes anything that was thrown or rejected, and it is written as `exception.type`,
 `exception.message` and `exception.stacktrace`.
@@ -145,13 +147,19 @@ stdout gets every record at or above `LOG_LEVEL`, whatever happens to PostHog.
 
 An `error` record with an `error` attribute is also sent with `captureException`. It carries the
 resource attributes, the record's other attributes and `$process_person_profile: false`. Its
-`distinct_id` is `service.name`, so an issue's "users affected" reads as "apps affected", or
-`unknown_service` when nothing names the service.
+`distinct_id` is `service.name`, so an issue's "users affected" reads as "apps affected".
+
+When `POSTHOG_API_KEY` is set and nothing names the service, the `distinct_id` is
+`unknown_service` and the logger writes one `warn` line to stdout, `No service name is set.`
 
 When `POSTHOG_API_KEY` is set, uncaught exceptions and unhandled rejections are written as an
 `error` record, captured and flushed within about 5 seconds, and then the process exits with code
 1 as it would have anyway. If the app has its own `uncaughtException` or `unhandledRejection`
 listener, the library records the error and leaves exiting to the app.
+
+One limit on Bun: when an unhandled rejection is the last thing a process does, with nothing else
+pending, Bun ends the process before anything can be sent. The record is still on stdout. An app
+with a server, a connection or a timer running isn't affected.
 
 ## When PostHog can't be reached
 
@@ -162,7 +170,7 @@ PostHog being slow, down or over quota never blocks, throws or delays the app.
 - Failed requests are retried with exponential backoff capped at one minute. Network errors, HTTP
   429 and 5xx are retried; other 4xx responses drop that batch.
 - Sending writes one `warn` line to stdout when it starts failing and one `info` line when it
-  recovers, never one per record.
+  recovers, never one per record. Those two lines obey `LOG_LEVEL` and are never sent to PostHog.
 
 ## Flushing and shutdown
 
