@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { describe, test } from 'node:test'
 import { distUrl, runChild, startCollector, waitFor } from './helpers.mjs'
+import { readFileSync } from 'node:fs'
 
 const { buildPayload, createOtlpExporter, toOtlpValue } = await import(distUrl('otlp.js'))
 
@@ -58,6 +59,11 @@ function pause(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+/** The version in `package.json`, which every payload names as its scope's version. */
+const packageVersion = JSON.parse(
+  readFileSync(new URL('../package.json', import.meta.url), 'utf8')
+).version
+
 describe('toOtlpValue', () => {
   test('encodes a string, a boolean, an integer and a float', () => {
     assert.deepEqual(toOtlpValue('text'), { stringValue: 'text' })
@@ -112,7 +118,7 @@ describe('buildPayload', () => {
             },
             scopeLogs: [
               {
-                scope: { name: '@4lch4/logger' },
+                scope: { name: '@4lch4/logger', version: packageVersion },
                 logRecords: [
                   {
                     timeUnixNano: '1767225600000000000',

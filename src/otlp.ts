@@ -1,3 +1,4 @@
+import { createRequire } from 'node:module'
 import { flattenAttributes } from './attributes.js'
 import type {
   AttributeValue,
@@ -10,6 +11,31 @@ import type {
 
 /** The scope name on every payload: this package produced the records. */
 const SCOPE_NAME = '@4lch4/logger'
+
+/**
+ * Reads this package's version from its own `package.json`, which is always published beside
+ * `dist`. Returns `undefined` when it can't be read, and never throws.
+ */
+function readPackageVersion(): string | undefined {
+  try {
+    const manifest: unknown = createRequire(import.meta.url)('../package.json')
+
+    if (typeof manifest !== 'object' || manifest === null || !('version' in manifest)) {
+      return undefined
+    }
+
+    return typeof manifest.version === 'string' ? manifest.version : undefined
+  } catch {
+    return undefined
+  }
+}
+
+/** The scope on every payload: this package's name and, when it can be read, its version. */
+const SCOPE: { name: string; version?: string } = (() => {
+  const version = readPackageVersion()
+
+  return version === undefined ? { name: SCOPE_NAME } : { name: SCOPE_NAME, version }
+})()
 
 /** The name of the header every request carries. */
 const CONTENT_TYPE = 'application/json'
@@ -56,8 +82,8 @@ export interface OtlpLogRecord {
 
 /** One scope's log records, in OTLP/HTTP's JSON encoding. */
 export interface OtlpScopeLogs {
-  /** The package that produced the records. */
-  scope: { name: string }
+  /** The package that produced the records, with its version when it's known. */
+  scope: { name: string; version?: string }
   /** The records, oldest first. */
   logRecords: OtlpLogRecord[]
 }
@@ -155,7 +181,7 @@ export function buildPayload(records: readonly LogRecord[], resource: Resource):
         resource: { attributes: toKeyValues(resource) },
         scopeLogs: [
           {
-            scope: { name: SCOPE_NAME },
+            scope: SCOPE,
             logRecords: records.map(toLogRecord),
           },
         ],
