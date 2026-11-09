@@ -1,8 +1,8 @@
 {
   "name": "@4lch4/logger",
   "displayName": "Logger",
-  "version": "2.2.0",
-  "description": "A small utility for logging to console within NodeJS/TypeScript applications.",
+  "version": "3.0.0",
+  "description": "Structured logging for Bun and Node.js apps: JSON lines on stdout, Logs to PostHog over OTLP, and errors to PostHog's error tracking.",
   "main": "./dist/index.js",
   "exports": {
     ".": {
@@ -17,19 +17,31 @@
   "scripts": {
     "build": "tsc",
     "pretest": "npm run build",
-    "test": "node --test",
+    "test": "node --test \"test/**/*.test.mjs\"",
     "pretty": "prettier --write .",
     "lint": "prettier -c .",
-    "scan": "snyk monitor && snyk code test"
+    "scan": "snyk monitor && snyk code test",
+    "test:bun": "bun run build && bun test"
   },
   "files": ["dist"],
   "engines": {
-    "node": ">=22"
+    "bun": ">=1.4.4",
+    "node": ">=24"
   },
   "publishConfig": {
     "access": "public"
   },
-  "keywords": ["util", "logger", "log", "logging", "stdout"],
+  "keywords": [
+    "logger",
+    "log",
+    "logging",
+    "structured-logging",
+    "stdout",
+    "posthog",
+    "opentelemetry",
+    "otlp",
+    "error-tracking"
+  ],
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/4lch4/Logger.git"
@@ -43,15 +55,14 @@
     "email": "bugs@4lch4.email",
     "url": "https://github.com/4lch4/Logger/issues"
   },
-  "dependencies": {
-    "@axiomhq/winston": "^2.0.0",
-    "winston": "^3.19.0"
-  },
   "devDependencies": {
     "@types/node": "^24.19.2",
     "prettier": "^3.9.10",
     "prettier-plugin-organize-imports": "^4.3.0",
     "prettier-plugin-packagejson": "^3.0.2",
     "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "posthog-node": "^5.64.0"
   }
 }
