@@ -63,13 +63,21 @@ function createClient(options: ExceptionReporterOptions): PostHogClientLike {
 
 /**
  * Runs a task and resolves when it has settled or when the time limit has passed, whichever comes
- * first. The timer doesn't keep the process alive, and neither a throw nor a rejection escapes.
+ * first. Neither a throw nor a rejection escapes.
  *
  * @param task The work to wait for.
  * @param timeoutMs The longest to wait.
+ * @param keepAlive Whether the timer keeps the process alive until the task settles. Off by
+ *   default, so waiting never holds a process open. The fatal-error handlers turn it on: a
+ *   runtime ends a process whose event loop is empty, and without this it could end before the
+ *   task has flushed anything.
  * @returns A promise that always resolves.
  */
-function settleWithin(task: () => Promise<void> | void, timeoutMs: number): Promise<void> {
+function settleWithin(
+  task: () => Promise<void> | void,
+  timeoutMs: number,
+  keepAlive = false
+): Promise<void> {
   return new Promise<void>(resolve => {
     let settled = false
     let timer: ReturnType<typeof setTimeout> | undefined
@@ -83,7 +91,7 @@ function settleWithin(task: () => Promise<void> | void, timeoutMs: number): Prom
     }
 
     timer = setTimeout(finish, Math.max(0, timeoutMs))
-    timer.unref?.()
+    if (!keepAlive) timer.unref?.()
 
     let result: unknown
 
@@ -231,9 +239,8 @@ export function installProcessHandlers(options: ProcessHandlersOptions): () => v
   }
 
   /**
-   * Tells the runtime which code to use should it end before {@link exit} runs. Bun ends a
-   * process right after an unhandled rejection's listeners return, so the call to `exit` can be
-   * too late there; this keeps the code right in that case and changes nothing on Node.
+   * Tells the runtime which code to use should it end before {@link exit} runs, so the code is
+   * right even then.
    */
   const noteExitCode = (code: number): void => {
     try {
@@ -266,7 +273,7 @@ export function installProcessHandlers(options: ProcessHandlersOptions): () => v
 
       if (!hasOwnListener) noteExitCode(1)
 
-      await settleWithin(() => options.onFatal(error, 'uncaughtException'), timeoutMs)
+      await settleWithin(() => options.onFatal(error, 'uncaughtException'), timeoutMs, true)
 
       // Without a listener of its own, the runtime would have exited with code 1.
       if (!hasOwnListener) {
@@ -292,7 +299,7 @@ export function installProcessHandlers(options: ProcessHandlersOptions): () => v
 
       if (rejectionListeners.length === 0 && exceptionListeners.length === 0) noteExitCode(1)
 
-      await settleWithin(() => options.onFatal(reason, 'unhandledRejection'), timeoutMs)
+      await settleWithin(() => options.onFatal(reason, 'unhandledRejection'), timeoutMs, true)
 
       if (rejectionListeners.length > 0) {
         handling = false
@@ -308,9 +315,12 @@ export function installProcessHandlers(options: ProcessHandlersOptions): () => v
       }
 
       exit(1)
+      return
     } catch {
       // Recording a fatal error never fails on its own.
     }
+
+    handling = false
   }
 
   const state: HandlersState = {

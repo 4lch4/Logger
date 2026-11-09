@@ -597,6 +597,31 @@ setTimeout(() => {
     assert.equal(result.code, 1)
   })
 
+  for (const [kind, trigger] of [
+    ['uncaughtException', "setTimeout(() => { throw new Error('late') }, 10)"],
+    ['unhandledRejection', "Promise.reject(new Error('late'))"],
+  ]) {
+    test(`waits for an onFatal that has nothing else keeping the process alive (${kind})`, async () => {
+      const result = await runChild(
+        `
+const { installProcessHandlers } = await import(${JSON.stringify(distUrl('exceptions.js'))})
+installProcessHandlers({
+  async onFatal(error, kind) {
+    // Stands in for a flush whose only timer doesn't keep the process alive.
+    await new Promise(resolve => setTimeout(resolve, 150).unref())
+    console.log('FLUSHED ' + kind + ' ' + error.message)
+  },
+})
+${trigger}
+`,
+        { timeoutMs: 4000 }
+      )
+
+      assert.match(result.stdout, new RegExp('FLUSHED ' + kind + ' late'))
+      assert.equal(result.code, 1)
+    })
+  }
+
   test('leaves the process running when the app has its own uncaught exception listener', async () => {
     const result = await runChild(
       `
