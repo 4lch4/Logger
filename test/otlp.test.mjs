@@ -534,6 +534,34 @@ describe('createOtlpExporter', () => {
         await context.close()
       }
     })
+
+    test('aborts a request that is still in flight when the time limit passes', async () => {
+      /** @type {AbortSignal | undefined} */
+      let signal
+      const statuses = []
+      const exporter = createOtlpExporter({
+        endpoint: 'http://127.0.0.1:1/i/v1/logs',
+        headers: {},
+        resource: {},
+        onStatus: status => statuses.push(status),
+        fetch(_url, init) {
+          signal = init.signal
+
+          return new Promise((_resolve, reject) => {
+            init.signal.addEventListener('abort', () => reject(init.signal.reason))
+          })
+        },
+        flushIntervalMs: 60_000,
+        requestTimeoutMs: 60_000,
+      })
+
+      exporter.enqueue(record('Hang.'))
+      await exporter.shutdown(50)
+      await pause(20)
+
+      assert.equal(signal?.aborted, true)
+      assert.deepEqual(statuses, [], 'An aborted request is not a failing server.')
+    })
   })
 
   describe('robustness', () => {

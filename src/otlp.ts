@@ -217,6 +217,9 @@ export function createOtlpExporter(options: OtlpExporterOptions): LogExporter {
   /** The first `shutdown` call's promise, returned by every later call. */
   let shutdownPromise: Promise<void> | undefined
 
+  /** Aborts a request that is still in flight when `shutdown` is done, so it can't hold the process open. */
+  const shutdownController = new AbortController()
+
   /**
    * A single operation that must not run beside another send.
    *
@@ -399,7 +402,7 @@ export function createOtlpExporter(options: OtlpExporterOptions): LogExporter {
         method: 'POST',
         headers: requestHeaders,
         body: batch.body,
-        signal: AbortSignal.timeout(requestTimeoutMs),
+        signal: AbortSignal.any([AbortSignal.timeout(requestTimeoutMs), shutdownController.signal]),
       })
 
       discardBody(response)
@@ -421,6 +424,9 @@ export function createOtlpExporter(options: OtlpExporterOptions): LogExporter {
 
   /** Restores or drops a failed batch, reports the failure and waits before trying again. */
   function handleFailure(batch: Batch, result: { retryable: boolean; reason: string }): void {
+    // A request that shutdown aborted says nothing about the server, so it isn't reported.
+    if (shutdownController.signal.aborted) return
+
     recordFailure(result.reason)
 
     if (result.retryable) {
@@ -564,6 +570,7 @@ export function createOtlpExporter(options: OtlpExporterOptions): LogExporter {
           if (timer !== undefined) clearTimeout(timer)
 
           clearTimers()
+          shutdownController.abort()
         }
       })()
 
