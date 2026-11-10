@@ -24,26 +24,21 @@ import pkg from './package.json' with { type: 'json' }
 
 const logger = createLogger({ version: pkg.version })
 
-logger.info('Notification delivered.', {
-  'notification.source': 'ci',
-  'delivery.delivered_to': '#ci',
-})
+logger.info('Server started.', { 'server.port': 3000 })
 
 try {
-  await deliver()
+  await saveOrder()
 } catch (error) {
-  logger.error('Delivery failed.', { error, 'delivery.channel': '#ci' })
+  logger.error('Order not saved.', { error, 'order.id': 'A-123' })
 }
 
-const child = logger.child({ subject: "OpenCode's models" })
-child.info('Model listed.')
+const requestLogger = logger.child({ 'http.route': '/orders' })
+requestLogger.warn('Request rejected.', { 'http.response.status_code': 422 })
 
-for (const signal of ['SIGTERM', 'SIGINT'] as const) {
-  process.on(signal, async () => {
-    await logger.shutdown()
-    process.exit(0)
-  })
-}
+process.on('SIGTERM', async () => {
+  await logger.shutdown()
+  process.exit(0)
+})
 ```
 
 **The library installs no signal handlers.** The app must call `shutdown()` from its own SIGTERM
