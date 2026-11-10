@@ -97,8 +97,9 @@ Every record and every exception carries these, with dotted keys:
 | `deployment.environment.name` | `environment`, `OTEL_RESOURCE_ATTRIBUTES`                  |
 
 `service`, `version` and `environment` are options to `createLogger`; every other name in the
-table is an environment variable. With none of them, `deployment.environment.name` is `production`
-when `NODE_ENV=production` and `development` otherwise. An attribute with no value is left out
+table is an environment variable. If neither `environment` nor `OTEL_RESOURCE_ATTRIBUTES` sets
+`deployment.environment.name`, it falls back to `production` when `NODE_ENV=production` and to
+`development` otherwise. An attribute with no value is left out
 rather than sent as an empty string. `OTEL_RESOURCE_ATTRIBUTES` is comma-separated `key=value`
 pairs, percent-decoded, as OpenTelemetry defines it.
 
