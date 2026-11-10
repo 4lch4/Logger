@@ -1,20 +1,26 @@
-name: Build & Publish npm package
+name: CI
 
 on:
-  push:
-    tags:
-      - 'v*'
+  pull_request:
 
-  workflow_dispatch: {}
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
-  id-token: write
 
 jobs:
-  publish:
-    name: Build & Publish
+  node:
+    name: Node ${{ matrix.node }}
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - '24'
+          - '26'
 
     steps:
       - name: Checkout Repository
@@ -23,8 +29,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
-          node-version-file: .nvmrc
-          registry-url: 'https://registry.npmjs.org'
+          node-version: ${{ matrix.node }}
           cache: npm
 
       - name: Install Dependencies
@@ -39,7 +44,24 @@ jobs:
       - name: Run Tests
         run: npm test
 
-      - name: Publish Package
-        run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  bun:
+    name: Bun
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v7
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Build Package
+        run: bun run build
+
+      - name: Run Tests
+        run: bun test

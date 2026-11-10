@@ -1,86 +1,95 @@
-import { WinstonTransport } from '@axiomhq/winston'
-import {
-  DEFAULT_LOG_HOSTNAME,
-  DEFAULT_LOG_LEVEL,
-  DEFAULT_LOG_NODE_ENV,
-  DEFAULT_LOG_SERVICE,
-} from './Defaults.js'
-import { arch, platform } from 'node:os'
-import Winston, {
-  LeveledLogMethod,
-  Logger as WinstonLogger,
-  transports as WinstonTransports,
-} from 'winston'
+import { createLogger } from './logger.js'
+import { createTestLogger } from './testing.js'
+import { LEVELS } from './types.js'
+import type { AttributesOf, Level, Logger } from './types.js'
+
+export { createLogger, createTestLogger, LEVELS }
+export type {
+  AttributePrimitive,
+  Attributes,
+  AttributesOf,
+  AttributeValue,
+  Level,
+  Logger,
+  LoggerOptions,
+  LogRecord,
+  TestLogger,
+} from './types.js'
+
+/** The real logger behind {@link logger}, created the first time something needs it. */
+let defaultLogger: Logger | undefined
 
 /**
- * A Winston Transport that logs to console, with colors for success and info.
- */
-export const ConsoleTransport = new WinstonTransports.Console({
-  format: Winston.format.combine(
-    Winston.format.colorize({ colors: { success: 'green', info: 'cyan' } }),
-    Winston.format.simple()
-  ),
-})
-
-/**
- * Creates a new Winston transport that logs to Axiom using the given dataset, token, and org ID,
- * and returns it.
+ * Returns the real logger, creating it with `createLogger()` on first use. Importing this module
+ * never creates one, so an app that only uses `createTestLogger` installs no handlers and sends
+ * nothing.
  *
- * @param dataset The Axiom Dataset to log to.
- * @param token The Axiom Token to use for authentication.
- * @param orgId The Axiom Org ID to use. Only required when the token is a personal token.
+ * @returns The default logger.
+ */
+function realLogger(): Logger {
+  defaultLogger ??= createLogger()
+
+  return defaultLogger
+}
+
+/**
+ * Passes a logging call on to the real logger, creating it first when it doesn't exist yet.
  *
- * @returns A new Winston transport that logs to Axiom.
+ * @param level The level to write at.
+ * @param message The message.
+ * @param attributes The call's attributes.
  */
-export function AxiomTransport(dataset: string, token: string, orgId?: string) {
-  return new WinstonTransport({ dataset, token, orgId })
-}
+function writeDefault<T extends AttributesOf<T>>(
+  level: Level,
+  message: string,
+  attributes?: T
+): void {
+  try {
+    const logger = realLogger()
 
-// Initialize the transports array with the console transport.
-const transports: Winston.transport[] = [ConsoleTransport]
-
-const AxiomDataSet = process.env.AXIOM_DATASET
-const AxiomOrgId = process.env.AXIOM_ORG_ID
-const AxiomToken = process.env.AXIOM_TOKEN
-
-// Ensure that we only log to Axiom if the required environment variables are set.
-if (AxiomDataSet && AxiomToken) {
-  transports.push(AxiomTransport(AxiomDataSet, AxiomToken, AxiomOrgId))
+    switch (level) {
+      case 'error':
+        logger.error(message, attributes)
+        return
+      case 'warn':
+        logger.warn(message, attributes)
+        return
+      case 'info':
+        logger.info(message, attributes)
+        return
+      default:
+        logger.debug(message, attributes)
+    }
+  } catch {
+    // The default logger never throws, even when creating the real one fails.
+  }
 }
 
 /**
- * The level to log at. `LOG_LEVEL` takes precedence, otherwise `info` is used in production and
- * `debug` everywhere else.
+ * The default logger for small apps. It is built from the environment alone, on first use: only
+ * a call creates it, so importing the package writes nothing, installs no handlers and starts no
+ * client. `flush()` and `shutdown()` resolve straight away when it was never created.
  */
-const logLevel =
-  process.env.LOG_LEVEL || (process.env.NODE_ENV === 'production' ? DEFAULT_LOG_LEVEL : 'debug')
-
-/**
- * An interface for the logger that extends the Winston logger and adds a `success` method.
- */
-export interface Logger extends WinstonLogger {
-  success: LeveledLogMethod
-}
-
-/**
- * A Winston logger that handles logging how I, _@4lch4_, prefer it be handled. It logs to the
- * console and to Axiom if the required environment variables are set.
- */
-export const logger: Logger = Winston.createLogger({
-  defaultMeta: {
-    service:
-      process.env.LOG_SERVICE ||
-      process.env.API_NAME ||
-      process.env.APP_NAME ||
-      DEFAULT_LOG_SERVICE,
-    nodeEnv: process.env.NODE_ENV || DEFAULT_LOG_NODE_ENV,
-    hostname: process.env.HOSTNAME || DEFAULT_LOG_HOSTNAME,
-    arch: arch(),
-    platform: platform(),
+export const logger: Logger = {
+  error<T extends AttributesOf<T>>(message: string, attributes?: T): void {
+    writeDefault('error', message, attributes)
   },
-  level: logLevel,
-  levels: { ...Winston.config.npm.levels, success: -1 },
-  transports,
-}) as Logger
-
-logger.success = logger.log.bind(logger, 'success')
+  warn<T extends AttributesOf<T>>(message: string, attributes?: T): void {
+    writeDefault('warn', message, attributes)
+  },
+  info<T extends AttributesOf<T>>(message: string, attributes?: T): void {
+    writeDefault('info', message, attributes)
+  },
+  debug<T extends AttributesOf<T>>(message: string, attributes?: T): void {
+    writeDefault('debug', message, attributes)
+  },
+  child<T extends AttributesOf<T>>(attributes: T): Logger {
+    return realLogger().child(attributes)
+  },
+  flush(): Promise<void> {
+    return defaultLogger?.flush() ?? Promise.resolve()
+  },
+  shutdown(): Promise<void> {
+    return defaultLogger?.shutdown() ?? Promise.resolve()
+  },
+}
